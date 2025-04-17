@@ -56,8 +56,12 @@ module.exports = {
                                 } else {
                                     console.log('Fan server role not found.');
                                 }
-                            } catch (error) {
-                                console.error('Error adding role in fan server:', error);
+                            } catch (error: any) {
+                                if (error.code === 10007) {
+                                    console.log(`User ${newMember.user.tag} is not in the fan server. Skipping.`);
+                                } else {
+                                    console.error(`Error syncing role in fan server:`, error);
+                                }
                             }
                         }
         
@@ -77,8 +81,12 @@ module.exports = {
                                 } else {
                                     console.log('Fan server role not found.');
                                 }
-                            } catch (error) {
-                                console.error('Error removing role in fan server:', error);
+                            } catch (error: any) {
+                                if (error.code === 10007) {
+                                    console.log(`User ${newMember.user.tag} is not in the fan server. Skipping.`);
+                                } else {
+                                    console.error(`Error syncing role in fan server:`, error);
+                                }
                             }
                         }
                     }
