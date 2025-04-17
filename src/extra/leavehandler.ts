@@ -90,8 +90,6 @@ module.exports = {
                             console.error(`Error banning user <@${userId}> in server ${guild.id}:`, error);
                         }
                     });
-
-                    con.query('DELETE FROM users WHERE discId = ?', [userId])
                 } catch (error) {
                     console.error("There was an error executing this command", error)
                     return;
