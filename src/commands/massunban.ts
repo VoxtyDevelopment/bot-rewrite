@@ -19,19 +19,27 @@ module.exports = {
         const logChannel = client.channels.cache.get(config.channels.logs);
         const reqRole = interaction.guild.roles.cache.find(r => r.id === config.roles.jadmin);
         const permissions = reqRole.position <= interaction.member.roles.highest.position;
-        const userId = (user.id)
         const embedcolor = (config.bot.settings.embedcolor)
         if (!permissions)
             return interaction.reply({ content: 'You do not have permission to use this command.', ephemeral: true });
 
 
         await client.guilds.fetch();
-        client.guilds.cache.forEach(async guild => {
-            const isBan = guild.bans.cache.get(user.id);
-            if (!isBan) return;
+        
+        for (const [_, guild] of client.guilds.cache) {
+            try {
+                await guild.bans.fetch(user.id);
 
-            await guild.bans.remove(user.id)
-        });
+                await guild.bans.remove(user.id);
+            } catch (err: any) {
+                if (err.code === 10026) {
+                    console.log(`User ${user.tag} was not banned in guild ${guild.name}`);
+                } else {
+                    console.error(`Error unbanning user ${user.tag} in guild ${guild.name}:`, err);
+                }
+            }
+        }
+
 
         const log = new EmbedBuilder()
         .setTitle('User Mass-Unbanned')
