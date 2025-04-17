@@ -109,8 +109,12 @@ const config = {
 
     channels: {
         logs: "1252677650456248473"
-    }
+    },
 
+    google: {
+        email: "docs-bot@vox-development-457109.iam.gserviceaccount.com",
+        privatekey: ""
+    }
 
 }
 
