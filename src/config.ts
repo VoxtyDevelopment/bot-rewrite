@@ -40,7 +40,16 @@ const config = {
         serverport: 9987,
         username: "serveradmin",
         password: "Von5FJMi",
-        nickname: "Vox Development"
+        nickname: "Vox Development",
+
+        roles: {
+            admin: "267",
+            jadmin: "267",
+            sstaff: "267",
+            staff: "267",
+            sit: "267",
+            member: "468"
+        }
     },
 
     server: {
@@ -56,8 +65,8 @@ const config = {
         staff: "1248799574978461767",
         sit: "1248799617345388564",
         member: "1248799659741151272",
-        verification: "",
-        whitelist: "",
+        verification: "1253777549172146217",
+        whitelist: "1249128354200686604",
 
         fan: {
             admin: "1258513061829152851",
@@ -71,17 +80,26 @@ const config = {
         dept: {
             lspd: "",
             bcso: "",
-            sasp: "",
+            sasp: "1248799944396111874",
             safr: "",
             civ: "",
             comms: "",
+        },
+        
+        staffguild: {
+            admin: "1362334768297021562",
+            jadmin: "1362334776245358664",
+            sstaff: "1362334787221590108",
+            staff: "1362334792435372203",
+            sit: "1362334796990124124"
         }
     },
 
     guilds: {
         mainGuild: "1248798386552045628",
-        devGuild: "1307888458466857000",
-        fanGuild: "1258513061556523080"
+        devGuild: "",
+        fanGuild: "1258513061556523080",
+        staffGuild: "1307888458466857000",
     },
 
     mute: {
