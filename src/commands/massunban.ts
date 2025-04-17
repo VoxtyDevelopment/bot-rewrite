@@ -1,5 +1,9 @@
 import { SlashCommandBuilder, EmbedBuilder, ColorResolvable } from "discord.js";
 import config from "../config";
+import utilites from "../utilites/utilites";
+const con = utilites.con;
+const ts3 = utilites.ts3;
+import axios from 'axios';
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -39,6 +43,46 @@ module.exports = {
                 }
             }
         }
+
+        con.query('SELECT * FROM users WHERE discId = ?', [user.id], async (err, rows) => {
+            if (err) return console.log('There was an error fetching the users information from the database, user has still been banned from discords.');
+            if (!rows[0]) return console.log('There was an error fetching the users information from the database, user has still been banned from discords.');
+
+            const usercache = rows [0];
+            const headers = { 'User-Agent': 'ECRP_Bot/2.0'};
+
+
+            if (usercache.webId) {
+                try {
+                    await axios.patch(
+                        `https://${config.invision.domain}/api/core/members/${usercache.webId}?key=${config.invision.api}`,
+                        {
+                            suspended: 0,
+                            warnings: 0
+                        },
+                        { headers }
+                    );
+                } catch (error) {
+                    console.error(`Failed to ban user on website (webId: ${usercache.webId}):`, error.message);
+                } 
+            } else {
+                console.log('Banned user does not have a website ID')
+            }
+
+            try {
+                const banList = await ts3.execute('banlist') as Array<{ banid: string, uid?: string }>;
+
+                const userBan = banList.find(ban => ban.uid === usercache.ts3);
+            
+                if (!userBan) {
+                    console.log(`No active ban found for UID: ${usercache.ts3}`);
+                } else {
+                    await ts3.execute('bandel', { banid: userBan.banid });
+                }
+            } catch (error) {
+                console.error(`Failed to remove TS3 ban for UID ${usercache.ts3}:`, error);
+            }
+        });
 
 
         const log = new EmbedBuilder()
