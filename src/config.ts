@@ -108,7 +108,8 @@ const config = {
     },
 
     channels: {
-        logs: "1252677650456248473"
+        logs: "1252677650456248473",
+        leaveLogs: "1362471641354866980"
     },
 
     google: {
