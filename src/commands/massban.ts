@@ -62,7 +62,11 @@ module.exports = {
             .setTimestamp()
             .setFooter({ text: config.bot.settings.embedfooter, iconURL: config.server.logo });
 
-            user.send({ embeds: [userDm] });
+            try {
+                await user.send({ embeds: [userDm] });
+            } catch (error) {
+                console.warn(`Could not send DM to ${user.tag} (${user.id}):`, error.message);
+            }
 
             client.guilds.cache.forEach(async (guild) => {
                 try {
@@ -72,30 +76,36 @@ module.exports = {
                 }
             });
 
-            /*
             con.query('SELECT * FROM users WHERE discId = ?', [userId], async (err, rows) => {
-                if (err) return interaction.reply({ content: 'There was an error fetching the users infromation from the database, user has still been banned from discords.', flags: MessageFlags.Ephemeral});
-                if (!rows[0]) return interaction.reply({ content: 'There was an error fetching the users infromation from the database, user has still been banned from discords.', flags: MessageFlags.Ephemeral });
+                if (err) return console.log('There was an error fetching the users infromation from the database, user has still been banned from discords.');
+                if (!rows[0]) return console.log('There was an error fetching the users infromation from the database, user has still been banned from discords.');
 
                 const usercache = rows [0];
                 const headers = { 'User-Agent': 'ECRP_Bot/2.0'};
 
                 try {
-                    await axios.post(
-                        `https://${config.invision.domain}/api/core/members/${usercache.webId}/warnings?suspendPermanent&moderator=1&points=100&key=${config.invision.api}`,
-                        {},
-                        { headers }
-                    );
-                
-                    await axios.post(
-                        `https://${config.invision.domain}/api/core/members/${usercache.webId}?group=3&key=${config.invision.api}`,
-                        {},
-                        { headers }
-                    );
+
+                    if (usercache.webId) {
+                        try {
+                            await axios.post(
+                                `https://${config.invision.domain}/api/core/members/${usercache.webId}/warnings?suspendPermanent&moderator=1&points=100&key=${config.invision.api}`,
+                                {},
+                                { headers }
+                            );
+                        
+                            await axios.post(
+                                `https://${config.invision.domain}/api/core/members/${usercache.webId}?group=3&key=${config.invision.api}`,
+                                {},
+                                { headers }
+                            );
+                        } catch (error) {
+                            console.error(`Failed to ban user on website (webId: ${usercache.webId}):`, error.message);
+                        }
+                    } else {
+                        console.log('Banned user does not have a website ID')
+                    }
 
                     try {
-                        await ts3.connect();
-
                         await ts3.execute('banadd', {
                             uid: usercache.ts3,
                             time: 0,
@@ -105,15 +115,15 @@ module.exports = {
                         await ts3.logout();
                         ts3.quit;
                     }
-
                 } catch (err) {
                     console.error(err);
                     return interaction.reply({ content: 'There was an error banning this user from the website or teamspeak, they have been banned from all discords.', flags: MessageFlags.Ephemeral });
                 }
 
 
-             })
-                */
+            })
+
+            con.query('DELETE FROM users WHERE discId = ?', [user.id])
 
             await interaction.reply({ content: `User <@${userId}> has been massbanned from all ${config.server.name} assets.` });
         }
