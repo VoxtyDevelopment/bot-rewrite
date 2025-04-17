@@ -41,11 +41,12 @@ module.exports = {
                     }
 
                     const headers = { 'User-Agent': 'ECRP_Bot/2.0'};
+                    const suspendUntil = Math.floor(Date.now() / 1000) + (30 * 24 * 60 * 60);
 
                     if (usercache.webId) {
                         try {
                             await axios.post(
-                                `https://${config.invision.domain}/api/core/members/${usercache.webId}/warnings?suspendPermanent&moderator=1&points=100&key=${config.invision.api}`,
+                                `https://${config.invision.domain}/api/core/members/${usercache.webId}/warnings?moderator=1&points=100&suspend=${suspendUntil}&key=${config.invision.api}`,
                                 {},
                                 { headers }
                             );
@@ -63,7 +64,7 @@ module.exports = {
                     try {
                         await ts3.execute('banadd', {
                             uid: usercache.ts3,
-                            time: 0,
+                            time: 2592000, // 30d
                             banreason: "Improper Resignation"
                         });
                     } finally {
@@ -81,6 +82,15 @@ module.exports = {
                     if (hasMemberRole) {
                         leaveChannel.send({ content: `<@&${config.roles.admin}> <@&${config.roles.jadmin}>\n Member <@${userId}> has left the community, please mark with a ✅ when your side of the resigination process is complete.`})
                     }
+
+                    member.guilds.cache.forEach(async (guild) => {
+                        try {
+                            await guild.members.ban(userId, { reason: `Improper resigination` });
+                        } catch (error) {
+                            console.error(`Error banning user <@${userId}> in server ${guild.id}:`, error);
+                        }
+                    });
+
                     con.query('DELETE FROM users WHERE discId = ?', [userId])
                 } catch (error) {
                     console.error("There was an error executing this command", error)
