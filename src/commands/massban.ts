@@ -77,8 +77,8 @@ module.exports = {
             });
 
             con.query('SELECT * FROM users WHERE discId = ?', [userId], async (err, rows) => {
-                if (err) return console.log('There was an error fetching the users infromation from the database, user has still been banned from discords.');
-                if (!rows[0]) return console.log('There was an error fetching the users infromation from the database, user has still been banned from discords.');
+                if (err) return console.log('There was an error fetching the users information from the database, user has still been banned from discords.');
+                if (!rows[0]) return console.log('There was an error fetching the users information from the database, user has still been banned from discords.');
 
                 const usercache = rows [0];
                 const headers = { 'User-Agent': 'ECRP_Bot/2.0'};
@@ -111,9 +111,8 @@ module.exports = {
                             time: 0,
                             banreason: reason
                         });
-                    } finally {
-                        await ts3.logout();
-                        ts3.quit;
+                    } catch (error) {
+                        console.error(`Failed to ban user on teamspeak (UID: ${usercache.ts3}):`, error.message);
                     }
                 } catch (err) {
                     console.error(err);
@@ -121,10 +120,8 @@ module.exports = {
                 }
 
 
-            })
-
-            con.query('DELETE FROM users WHERE discId = ?', [user.id])
-
+            });
+            
             await interaction.reply({ content: `User <@${userId}> has been massbanned from all ${config.server.name} assets.` });
         }
 }
