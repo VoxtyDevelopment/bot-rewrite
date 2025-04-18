@@ -32,6 +32,7 @@ const config = {
         media: "1",
         rnt: "1",
         retired: "",
+        applicant: "",
     },
 
     ts3: {
