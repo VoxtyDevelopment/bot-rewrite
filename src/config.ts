@@ -113,12 +113,6 @@ const config = {
         logs: "1252677650456248473",
         leaveLogs: "1362471641354866980"
     },
-
-    google: {
-        email: "docs-bot@vox-development-457109.iam.gserviceaccount.com",
-        privatekey: ""
-    }
-
 }
 
 export default config;
