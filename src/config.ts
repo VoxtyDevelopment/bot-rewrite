@@ -79,6 +79,7 @@ const config = {
             member: "1258513061799526507"
         },
 
+
         dept: {
             lspd: "",
             bcso: "",
