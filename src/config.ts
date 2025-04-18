@@ -79,6 +79,7 @@ const config = {
             member: "1258513061799526507"
         },
 
+
         dept: {
             lspd: "",
             bcso: "",
@@ -86,6 +87,9 @@ const config = {
             safr: "",
             civ: "",
             comms: "",
+            rnt: "",
+            dev: "",
+            media: "",
         },
         
         staffguild: {
