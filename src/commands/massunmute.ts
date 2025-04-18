@@ -1,5 +1,4 @@
-import { SlashCommandBuilder, EmbedBuilder, ColorResolvable, GuildMember, AttachmentBuilder, MessageFlags } from 'discord.js';
-import discordTranscripts from 'discord-html-transcripts';
+import { SlashCommandBuilder, EmbedBuilder, ColorResolvable, GuildMember, MessageFlags } from 'discord.js';
 import utilities from '../utilites/utilites';
 import config from '../config';
 const { con } = utilities;
@@ -18,6 +17,11 @@ module.exports = {
             return interaction.reply({ content: config.guilds.mainGuild, flags: MessageFlags.Ephemeral });
         }
 
+        const channelName = interaction.channel.name.toLowerCase();
+        if (channelName.startsWith('ia-') || channelName.startsWith('muted-staff')) {
+            return interaction.reply({ content: "You cannot run this command in the muted channel.", flags: MessageFlags.Ephemeral });
+        }
+
         const reqRole = interaction.guild.roles.cache.get(config.roles.staff);
         const permission = reqRole?.position <= interaction.member.roles.highest.position;
         if (!permission) {
@@ -26,7 +30,6 @@ module.exports = {
 
         const user = interaction.options.getMember('user') as GuildMember;
         const logChannel = client.channels.cache.get(config.channels.logs);
-        let transcript: Buffer | undefined;
 
         const unmuteLogEmbed = new EmbedBuilder()
             .setTitle("User unmuted")
@@ -73,9 +76,7 @@ module.exports = {
 
                     try {
                         const muteChannel = await mGuild.channels.fetch(rows[i].muteChannel);
-                        let transcript: AttachmentBuilder | undefined;
-                        transcript = await discordTranscripts.createTranscript(muteChannel);
-                        await muteChannel.delete();
+                        if (muteChannel) await muteChannel.delete();
                     } catch (err) {
                         console.log('Error fetching or deleting mute channel:', err);
                     }
@@ -87,7 +88,7 @@ module.exports = {
             }
 
             if (logChannel) {
-                await logChannel.send({ embeds: [unmuteLogEmbed], files: transcript ? [transcript] : [] });
+                await logChannel.send({ embeds: [unmuteLogEmbed] });
             }
 
             con.query("DELETE FROM activemutes WHERE discId = ?", [user.id], async (err: Error) => {

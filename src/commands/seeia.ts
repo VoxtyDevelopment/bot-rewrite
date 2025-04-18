@@ -5,15 +5,15 @@ const { con } = utilites
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('massmute')
-        .setDescription('Mute a user in all discords')
+        .setName('seeia')
+        .setDescription('Mute a user in all discords (IA)')
         .addUserOption(option =>
             option.setName('user')
                 .setDescription('The user to mute')
                 .setRequired(true)
         )
         .addStringOption(option =>
-            option.setName('mutereason')
+            option.setName('reason')
                 .setDescription('The reason for muting this user')
                 .setRequired(true)
         ),
@@ -24,13 +24,15 @@ module.exports = {
         if (interaction.guildId !== config.guilds.mainGuild)
             return interaction.editReply({ content: 'This command is only available in the main guild.', flags: MessageFlags.Ephemeral });
 
-        const reqRole = interaction.guild.roles.cache.find(r => r.id === config.roles.sit);
+        const reqRole = interaction.guild.roles.cache.find(r => r.id === config.roles.ia);
         const permission = reqRole.position <= interaction.member.roles.highest.position;
-        if (!permission)
-            return interaction.editReply({ content: "You do not have permission to execute this command", flags: MessageFlags.Ephemeral });
+
+        if (!permission) {
+            return interaction.editReply({ content: "You do not have permission to execute this command", flags: MessageFlags.Ephemeral })
+        }
 
         const user = interaction.options.getUser('user');
-        const reason = interaction.options.getString('mutereason');
+        const reason = interaction.options.getString('reason');
         const logChannel = client.channels.cache.get(config.channels.logs);
         const userId = user.id;
 
@@ -44,8 +46,8 @@ module.exports = {
                 return interaction.editReply({ content: "That user is already muted!", flags: MessageFlags.Ephemeral });
             }
 
-            const muteEmbed = new EmbedBuilder()
-                .setTitle("Muted Channel - " + userId)
+            const iaembed = new EmbedBuilder()
+                .setTitle("See IA - " + userId)
                 .setDescription(`Hello <@${user.id}>, you have been muted by <@${interaction.member.id}> for the reason \`${reason}\`. Please do not share any messages / media from this channel as it can result in further action being taken. Please wait patiently as you will be reached out to ASAP.`)
                 .setTimestamp()
                 .setColor(config.bot.settings.embedcolor as ColorResolvable)
@@ -53,7 +55,7 @@ module.exports = {
                 .setFooter({ text: config.bot.settings.embedfooter, iconURL: config.server.logo });
 
             const muteLogEmbed = new EmbedBuilder()
-                .setTitle("User Mass Muted")
+                .setTitle("User Mass Muted (IA)")
                 .addFields(
                     { name: "User", value: `<@${userId}>` },
                     { name: "Moderator", value: `<@${interaction.member.id}>` },
@@ -68,7 +70,7 @@ module.exports = {
             await interaction.editReply(`Muting <@${user.id}>...`);
 
             const muteChannel = await interaction.guild.channels.create({
-                name: `muted-staff-${userId}`,
+                name: `ia-${userId}`,
                 type: ChannelType.GuildText,
                 parent: config.mute.catagory,
                 permissionOverwrites: [
@@ -81,23 +83,7 @@ module.exports = {
                         allow: [PermissionFlagsBits.SendMessages, PermissionFlagsBits.ViewChannel]
                     },
                     {
-                        id: config.roles.sit,
-                        allow: [PermissionFlagsBits.SendMessages, PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: config.roles.staff,
-                        allow: [PermissionFlagsBits.SendMessages, PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: config.roles.sstaff,
-                        allow: [PermissionFlagsBits.SendMessages, PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: config.roles.jadmin,
-                        allow: [PermissionFlagsBits.SendMessages, PermissionFlagsBits.ViewChannel]
-                    },
-                    {
-                        id: config.roles.admin,
+                        id: config.roles.ia,
                         allow: [PermissionFlagsBits.SendMessages, PermissionFlagsBits.ViewChannel]
                     },
                     {
@@ -108,42 +94,42 @@ module.exports = {
             });
 
             client.guilds.cache.forEach(async guild => {
-                const gUser = guild.members.cache.get(userId);
-                if (!gUser || !gUser.moderatable) return;
+                var gUser = guild.members.cache.get(userId);
+                if (!gUser) return;
 
-                const allRoles = {
-                    removedRoles: []
-                };
+                if (gUser.moderatable) {
+                    var allRoles = {
+                        removedRoles: []
+                    };
 
-                for (const role of gUser.roles.cache.values()) {
-                    if (role.name === "@everyone") continue;
-                    allRoles.removedRoles.push(role.id);
-                    try {
-                        await gUser.roles.remove(role);
-                    } catch (err) {
-                        console.log(err);
-                    }
-                }
+                    gUser.roles.cache.forEach(async role => {
+                        if (role.name === "@everyone") return;
+                        allRoles.removedRoles.push(role.id);
+                        try {
+                            await gUser.roles.remove(role);
+                        } catch (err) {
+                            return console.log(err);
+                        }
+                    });
 
-                con.query("INSERT INTO activemutes(guildId, discId, muteReason, roles, muteChannel) VALUES(?, ?, ?, ?, ?)",
-                    [guild.id, userId, reason, JSON.stringify(allRoles), muteChannel.id],
-                    (err) => {
+                    con.query("INSERT INTO activemutes(guildId, discId, muteReason, roles, muteChannel) VALUES(?, ?, ?, ?, ?)", [guild.id, userId, reason, JSON.stringify(allRoles), muteChannel.id], async (err, rows) => {
                         if (err) {
                             console.log(err);
                             return interaction.editReply({ content: "There has been an error executing this command", flags: MessageFlags.Ephemeral });
                         }
                     });
 
-                const rMuteRole = guild.roles.cache.find(r => r?.name?.includes(config.mute.role));
-                if (rMuteRole) await gUser.roles.add(rMuteRole);
+                    const rMuteRole = guild.roles.cache.find(r => r?.name?.includes(config.mute.role));
+                    return gUser.roles.add(rMuteRole);
+                }
             });
 
-            await muteChannel.send({ content: `<@${user.id}>`, embeds: [muteEmbed] });
+            await muteChannel.send({ content: `<@${user.id}>`, embeds: [iaembed] });
             await logChannel.send({ embeds: [muteLogEmbed] });
 
-            con.query("UPDATE users SET isMuted = 1 WHERE uid = ?", [userId], () => {
-                interaction.channel.send(`<@${userId}> has been muted.`);
+            con.query("UPDATE users SET isMuted = 1 WHERE uid = ?", [userId], async (err, rows) => {
+                return interaction.channel.send(`<@${userId}> has been muted.`);
             });
         });
     }
-};
+}
