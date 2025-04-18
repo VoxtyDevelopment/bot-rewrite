@@ -29,7 +29,7 @@ module.exports = {
         try {
             const messages = await interaction.channel.messages.fetch({ limit: amount });
             await interaction.channel.bulkDelete(messages, true);
-            await interaction.reply({ content: `${amount} messages have successfully been deleted`, ephemeral: true });
+            await interaction.reply({ content: `${amount} messages have successfully been deleted`, flags: MessageFlags.Ephemeral });
 
             const logEmbed = new EmbedBuilder()
                 .setTitle('Messages Cleared')

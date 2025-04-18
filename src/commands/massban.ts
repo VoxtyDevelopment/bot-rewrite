@@ -1,9 +1,15 @@
 import { SlashCommandBuilder, EmbedBuilder, Embed, Colors, ColorResolvable, MessageFlags, TextChannel } from 'discord.js';
 import config from '../config';
 import utilities from '../utilites/utilites';
+import { changeWebsiteRole, banWebsiteUser } from '../utilites/utilites';
 const con = utilities.con;
 const ts3 = utilities.ts3;
 import axios from 'axios';
+import https from 'https';
+
+const httpsAgent = new https.Agent({
+    rejectUnauthorized: false
+});
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -87,17 +93,8 @@ module.exports = {
 
                     if (usercache.webId) {
                         try {
-                            await axios.post(
-                                `https://${config.invision.domain}/api/core/members/${usercache.webId}/warnings?suspendPermanent&moderator=1&points=100&key=${config.invision.api}`,
-                                {},
-                                { headers }
-                            );
-                        
-                            await axios.post(
-                                `https://${config.invision.domain}/api/core/members/${usercache.webId}?group=3&key=${config.invision.api}`,
-                                {},
-                                { headers }
-                            );
+                            await banWebsiteUser(usercache.webId);
+                            await changeWebsiteRole(usercache.webId, config.invision.applicant);
                         } catch (error) {
                             console.error(`Failed to ban user on website (webId: ${usercache.webId}):`, error.message);
                         }

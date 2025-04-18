@@ -3,6 +3,7 @@ import utilites from "../utilites/utilites";
 import axios from 'axios';
 const ts3 = utilites.ts3
 const con = utilites.con
+import { changeWebsiteRole, banWebsiteUser } from "../utilites/utilites";
 
 module.exports = {
     once: true,
@@ -40,22 +41,10 @@ module.exports = {
                         }
                     }
 
-                    const headers = { 'User-Agent': 'ECRP_Bot/2.0'};
-                    const suspendUntil = Math.floor(Date.now() / 1000) + (30 * 24 * 60 * 60);
-
                     if (usercache.webId) {
                         try {
-                            await axios.post(
-                                `https://${config.invision.domain}/api/core/members/${usercache.webId}/warnings?moderator=1&points=100&suspend=${suspendUntil}&key=${config.invision.api}`,
-                                {},
-                                { headers }
-                            );
-                        
-                            await axios.post(
-                                `https://${config.invision.domain}/api/core/members/${usercache.webId}?group=3&key=${config.invision.api}`,
-                                {},
-                                { headers }
-                            );
+                            await banWebsiteUser(usercache.webId);
+                            await changeWebsiteRole(usercache.webId, config.invision.applicant);
                         } catch (error) {
                             console.error(`Failed to ban user on website (webId: ${usercache.webId}):`, error.message);
                         }

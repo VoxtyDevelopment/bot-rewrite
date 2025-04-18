@@ -32,6 +32,7 @@ const config = {
         media: "1",
         rnt: "1",
         retired: "",
+        applicant: "",
     },
 
     ts3: {
@@ -60,6 +61,7 @@ const config = {
     roles: {
         leadership: "1248798406915129354",
         admin: "1248798969258311690",
+        ia: "1362739969923481711",
         jadmin: "1248799284057342072",
         sstaff: "1248799433911697529",
         staff: "1248799574978461767",
@@ -84,6 +86,9 @@ const config = {
             safr: "",
             civ: "",
             comms: "",
+            rnt: "",
+            dev: "",
+            media: "",
         },
         
         staffguild: {
@@ -111,12 +116,6 @@ const config = {
         logs: "1252677650456248473",
         leaveLogs: "1362471641354866980"
     },
-
-    google: {
-        email: "docs-bot@vox-development-457109.iam.gserviceaccount.com",
-        privatekey: ""
-    }
-
 }
 
 export default config;
