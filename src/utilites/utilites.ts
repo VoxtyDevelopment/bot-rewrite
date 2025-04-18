@@ -3,6 +3,13 @@ import { google } from 'googleapis';
 import { JWT } from 'google-auth-library';
 import config from "../config";
 import mysql from 'mysql2';
+import axios from 'axios';
+import https from 'https';
+const headers = { 'User-Agent': 'ECRP_Bot/2.0'};
+
+const httpsAgent = new https.Agent({
+    rejectUnauthorized: false
+});
 
 const TEMPLATE_ID = '1Ur4T8yG3dDi_p9RAW3h8QqwPy7zbCTzeleXIvLhcwL4';
 
@@ -32,6 +39,30 @@ const ts3 = new TeamSpeak({
     password: config.ts3.password,
     nickname: config.ts3.nickname,
 });
+
+export async function changeWebsiteRole(webid: string, roleid: string) {
+  try {
+    await axios.post(
+      `https://${config.invision.domain}/api/core/members/${webid}?group=${roleid}&key=${config.invision.api}`,
+      {},
+      { headers, httpsAgent }
+  );
+  } catch (error) {
+    return console.error(error);
+  }
+};
+
+export async function banWebsiteUser(webid: string) {
+  try {
+    await axios.post(
+      `https://${config.invision.domain}/api/core/members/${webid}/warnings?suspendPermanent&moderator=1&points=100&key=${config.invision.api}`,
+      {},
+      { headers, httpsAgent }
+  );
+  } catch (error) {
+    return console.error(error);
+  }
+}
 
 export async function generateDocument(name: string): Promise<string> {
     const copyResponse = await drive.files.copy({
