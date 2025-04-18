@@ -61,8 +61,10 @@ module.exports = {
             }
 
             const webLink = userData.webId
-                ? `[${userData.webId}](https://${config.invision.domain}/index.php?/profile/${userData.webId})`
-                : 'Not Provided';
+            ? `[View Profile](${config.invision.domain}/profile/${userData.webId}-VOXDEVBOT/)`
+            : 'Not Provided';
+
+
 
             const embed = new EmbedBuilder()
                 .setTitle('User Lookup')
