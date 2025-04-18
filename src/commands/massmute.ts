@@ -1,6 +1,5 @@
 import { SlashCommandBuilder, EmbedBuilder, messageLink, ChannelType, PermissionFlagsBits, MessageFlags, ColorResolvable, Message } from 'discord.js'
 import utilites from '../utilites/utilites'
-import { generateDocument } from '../utilites/utilites'
 import config from '../config'
 const { con } = utilites
 
@@ -43,10 +42,6 @@ module.exports = {
                 return interaction.editReply({content: "That user is already muted!", flags: MessageFlags.Ephemeral })
             }
 
-            const docLink = await generateDocument(user.tag);
-
-            interaction.user.send(docLink)
-
             const muteEmbed = new EmbedBuilder()
                 .setTitle("Muted Channel - " + userId)
                 .setDescription(`Hello <@${user.id}>, you have been muted by <@${interaction.member.id}> for the reason \`${reason}\`. Please do not share any messages / media from this channel as it can result in further action being taken. Please wait patiently as you will be reached out to ASAP.`)
@@ -62,7 +57,6 @@ module.exports = {
                     { name: "User", value: `<@${userId}>` },
                     { name: "Moderator", value: `<@${interaction.member.id}>` },
                     { name: "Reason", value: reason },
-                    { name: "DA Report Link", value: `${docLink}` },
                     { name: 'Channel used in', value: `<#${interaction.channel.id}>` },
                 )
                 .setColor(config.bot.settings.embedcolor as ColorResolvable)
