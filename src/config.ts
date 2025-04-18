@@ -1,7 +1,7 @@
 const config = {
 
     bot: {
-        token: "",
+        token: "MTI0NzQ2ODQwMzQwOTgxMzYyNQ.GbbfTy.s2200PvHgGSfQ5bQGXOmllsZ8yg0etqaSGPzqQ",
         clientId: "1247468403409813625",
 
         settings: {
@@ -19,8 +19,8 @@ const config = {
     },
 
     invision: {
-        api: "0c385fc020141a6571070d2b5147f1f8",
-        domain: "localhost",
+        api: "dba33bf8371595924d078ea0f420fe2c",
+        domain: "slrp.epizy.com",
         recruit: "1",
         member: "12",
         sit: "1",
@@ -61,6 +61,7 @@ const config = {
     roles: {
         leadership: "1248798406915129354",
         admin: "1248798969258311690",
+        ia: "",
         jadmin: "1248799284057342072",
         sstaff: "1248799433911697529",
         staff: "1248799574978461767",
@@ -112,12 +113,6 @@ const config = {
         logs: "1252677650456248473",
         leaveLogs: "1362471641354866980"
     },
-
-    google: {
-        email: "docs-bot@vox-development-457109.iam.gserviceaccount.com",
-        privatekey: ""
-    }
-
 }
 
 export default config;
