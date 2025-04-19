@@ -55,6 +55,7 @@ const config = {
 
     server: {
         name: "Vox Development",
+        fivemip: '127.0.0.1:30120', // e.g 127.0.0.1:30120
         logo: "https://media.discordapp.net/attachments/1282018361781260321/1356408862621831278/Vox_Development_Logo_Transparent.png?ex=68018db1&is=68003c31&hm=88a35338149ba9f42676d9896e53bf121793e5e6a2d429660ff7bcad171cef0d&=&format=webp&quality=lossless&width=461&height=461"
     },
 
