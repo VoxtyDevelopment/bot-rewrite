@@ -1,7 +1,4 @@
-const {
-    SlashCommandBuilder,
-    EmbedBuilder
-} = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, MessageFlags } = require('discord.js');
 const { get } = require("superagent");
 const config = require('../config').default;
 
@@ -24,7 +21,7 @@ module.exports = {
         const userHighestRole = interaction.member.roles.highest;
 
         if (!reqRole || userHighestRole.position < reqRole.position) {
-            return interaction.reply({ content: "You don't have permission to use this command.", ephemeral: true });
+            return interaction.reply({ content: "You don't have permission to use this command.", flags: MessageFlags.Ephemeral });
         }
 
         const logChannel = client.channels.cache.get(config.channels.logs);
@@ -77,7 +74,7 @@ module.exports = {
 
         } catch (err) {
             console.error("Error fetching FiveM player data:", err.message);
-            return interaction.reply({ content: "An error occurred fetching the server data.", ephemeral: true });
+            return interaction.reply({ content: "An error occurred fetching the server data.", flags: MessageFlags.Ephemeral });
         }
     }
 };
