@@ -1,6 +1,6 @@
-# VoxtyDevelopment Bot
+# Vox Development Bot
 
-A rewritten bot for VoxtyDevelopment, built with TypeScript. This project is designed to be a rewrite of our last external security bot written in Javascript.
+A rewritten bot by Vox Development, built with TypeScript. This project is designed to be a rewrite of our last external security bot written in Javascript.
 
 ## Setup Instructions
 
