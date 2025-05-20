@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, EmbedBuilder, ColorResolvable, GuildMember, MessageFlags } from 'discord.js';
-import utilities from '../utilites/utilites';
-import config from '../config';
+import utilities from '../../utilites/utilites';
+import config from '../../config';
 const { con } = utilities;
 
 module.exports = {

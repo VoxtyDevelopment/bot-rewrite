@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, EmbedBuilder, MessageFlags, ColorResolvable } from 'discord.js';
-import config from '../config';
-import utilites from '../utilites/utilites';
+import config from '../../config';
+import utilites from '../../utilites/utilites';
 const ts3 = utilites.ts3;
 
 module.exports = {

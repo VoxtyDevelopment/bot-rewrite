@@ -2,7 +2,7 @@ const config = {
 
     bot: {
         token: "",
-        clientId: "1247468403409813625",
+        clientId: "1358579274130522166",
 
         settings: {
             status: "Watching the sunrise on the eastcoast",
@@ -10,12 +10,12 @@ const config = {
             embedfooter: "fat nigger"
         },
     },
-
+ 
     mysql: {
         host: "localhost",
-        user: "vox",
-        password: "vox",
-        database: "bot",
+        user: "root",
+        password: "",
+        database: "botv2",
     },
 
     invision: {
@@ -60,16 +60,16 @@ const config = {
     },
 
     roles: {
-        leadership: "1248798406915129354",
-        admin: "1248798969258311690",
+        leadership: "1373987444944273429",
+        admin: "1373987472580546631",
         ia: "",
-        jadmin: "1248799284057342072",
-        sstaff: "1248799433911697529",
-        staff: "1248799574978461767",
-        sit: "1248799617345388564",
-        member: "1248799659741151272",
-        verification: "1253777549172146217",
-        whitelist: "1249128354200686604",
+        jadmin: "1373987518118367334",
+        sstaff: "1373987535088259084",
+        staff: "1373987564041670656",
+        sit: "1373987593578086462",
+        member: "1373985382143885463",
+        verification: "1373985382143885463",
+        whitelist: "1373985382143885463",
 
         fan: {
             admin: "1258513061829152851",
@@ -103,20 +103,20 @@ const config = {
     },
 
     guilds: {
-        mainGuild: "1248798386552045628",
+        mainGuild: "1347954357357772901",
         devGuild: "",
         fanGuild: "1258513061556523080",
         staffGuild: "1307888458466857000",
     },
 
     mute: {
-        catagory: "1257719285053390868",
+        catagory: "1347954357852962907",
         role: "Coventry"
     },
 
     channels: {
-        logs: "1252677650456248473",
-        leaveLogs: "1362471641354866980"
+        logs: "1373986522633867264",
+        leaveLogs: "1373986522633867264"
     },
 }
 

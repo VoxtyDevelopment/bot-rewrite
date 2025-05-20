@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder, MessageFlags } = require('discord.js');
 const { get } = require("superagent");
-const config = require('../config').default;
+const config = require('../../config');
 
 module.exports = {
     data: new SlashCommandBuilder()

@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, EmbedBuilder, MessageFlags, ColorResolvable } from 'discord.js';
-import config from '../config';
+import config from '../../config';
 import mysql from 'mysql2/promise';
 
 module.exports = {

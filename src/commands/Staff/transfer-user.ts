@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, EmbedBuilder, MessageFlags, ColorResolvable } from 'discord.js';
-import config from '../config';
+import config from '../../config';
 
 const departmentRoles = {
     'Police Department': config.roles.dept.lspd,

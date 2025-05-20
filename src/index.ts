@@ -24,25 +24,41 @@ const client = new Client({
         GatewayIntentBits.DirectMessages
     ]
 }) as ExtendedClient;
-
+// one for the money two for the better green 3-4-methylenedioxymethamphetamine
 const commands: any[] = [];
-const commandFiles = fs.readdirSync(path.join(__dirname, 'commands')).filter(file => file.endsWith('.ts') || file.endsWith('.js'));
+const commandFiles = getAllFiles(path.join(__dirname, 'commands'));
+
+
+function getAllFiles(dirPath: string, fileList: string[] = []): string[] {
+    const files = fs.readdirSync(dirPath);
+
+    for (const file of files) {
+        const filePath = path.join(dirPath, file);
+        if (fs.statSync(filePath).isDirectory()) {
+            getAllFiles(filePath, fileList);
+        } else if (file.endsWith('.ts') || file.endsWith('.js')) {
+            fileList.push(filePath);
+        }
+    }
+
+    return fileList;
+}
+
 
 client.commands = new Collection();
 
-for (const file of commandFiles) {
-    const command = require(`./commands/${file}`);
+for (const filePath of commandFiles) {
+    const command = require(filePath);
     commands.push(command.data.toJSON());
 }
 
-for (const file of commandFiles) {
-    const filePath = path.join(__dirname, 'commands', file);
+for (const filePath of commandFiles) {
     const command = require(filePath);
 
     if (command.data && command.execute) {
         client.commands.set(command.data.name, command);
     } else {
-        console.warn(`[WARNING] The command at ${file} is missing a required "data" or "execute" property.`);
+        console.warn(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
     }
 }
 

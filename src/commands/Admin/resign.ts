@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, EmbedBuilder, Colors, ColorResolvable, TextChannel, GuildMember } from 'discord.js';
-import config from '../config';
-import utilities from '../utilites/utilites';
+import config from '../../config';
+import utilities from '../../utilites/utilites';
 import axios from 'axios';
 
 const con = utilities.con;
