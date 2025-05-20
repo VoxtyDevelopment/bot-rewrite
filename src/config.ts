@@ -18,6 +18,26 @@ const config = {
         database: "botv2",
     },
 
+    departmentDiscords: {
+        "Los Santos Police Department": {
+        link: "https://discord.gg/invite",
+        officer: "Police Commissioner - Vacante W."
+        },
+        "Blaine County Sheriff's Office": {
+        link: "https://discord.gg/invite",
+        officer: "Sheriff - Vacante W."
+        },
+        "San Andreas State Police": {
+        link: "https://discord.gg/invite",
+        officer: "Commissioner - Vacante W."
+        },
+        "San Andreas Civilian Operations": {
+        link: "https://discord.gg/invite",
+        officer: "Civilian Director - Vacante W."
+        }
+    },
+
+
     invision: {
         api: "dba33bf8371595924d078ea0f420fe2c",
         domain: "slrp.epizy.com",
@@ -35,13 +55,13 @@ const config = {
         applicant: "",
     },
 
-    vpnApiKey: 'MjgzMTQ6ajM5UTFiQXBybEU3QVJJUkZ3aWZBSU9DM0VGNDliNDA=', // uhh if you want to use the iphub api for checking if a user is using a vpn or not you can get your api key here: https://iphub.info/register // free key is 1000 requests per day
+    vpnApiKey: '', // uhh if you want to use the iphub api for checking if a user is using a vpn or not you can get your api key here: https://iphub.info/register // free key is 1000 requests per day
 
     ts3: {
         host: "localhost",
         queryport: 10011,
         serverport: 9987,
-        username: "Nigger",
+        username: "serveradmin",
         password: "BBPHYOVb",
         nickname: "Vox Development",
 

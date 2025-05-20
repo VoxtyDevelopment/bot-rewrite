@@ -21,7 +21,7 @@ const client = new Client({
         GatewayIntentBits.GuildBans,
         GatewayIntentBits.GuildInvites,
         GatewayIntentBits.GuildPresences,
-        GatewayIntentBits.DirectMessages
+        GatewayIntentBits.DirectMessages,
     ]
 }) as ExtendedClient;
 // one for the money two for the better green 3-4-methylenedioxymethamphetamine

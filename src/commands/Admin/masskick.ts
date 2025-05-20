@@ -15,7 +15,7 @@ module.exports = {
                 .setDescription('The reason for the kick')
                 .setRequired(true)
         ),
-
+        
     async execute(interaction, client) {
         if (interaction.guildId !== config.guilds.mainGuild)
             return interaction.reply({ content: 'This command is only available in the main guild.', flags: MessageFlags.Ephemeral });
