@@ -45,6 +45,7 @@ function getAllFiles(dirPath: string, fileList: string[] = []): string[] {
 }
 
 
+
 client.commands = new Collection();
 
 for (const filePath of commandFiles) {
@@ -186,4 +187,7 @@ client.on("ready", async () => {
 })
 
 
+
+
 client.login(config.bot.token)
+export { client };

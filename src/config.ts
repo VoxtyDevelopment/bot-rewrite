@@ -1,7 +1,7 @@
 const config = {
 
     bot: {
-        token: "",
+        token: "MTM1ODU3OTI3NDEzMDUyMjE2Ng.Ggs7mc.li_JFRdOjvhZajHzUUDZgAQFpNLT-ggeOhhiWQ",
         clientId: "1358579274130522166",
 
         settings: {
@@ -35,12 +35,14 @@ const config = {
         applicant: "",
     },
 
+    vpnApiKey: 'MjgzMTQ6ajM5UTFiQXBybEU3QVJJUkZ3aWZBSU9DM0VGNDliNDA=', // uhh if you want to use the iphub api for checking if a user is using a vpn or not you can get your api key here: https://iphub.info/register // free key is 1000 requests per day
+
     ts3: {
         host: "localhost",
         queryport: 10011,
         serverport: 9987,
-        username: "serveradmin",
-        password: "Von5FJMi",
+        username: "Nigger",
+        password: "BBPHYOVb",
         nickname: "Vox Development",
 
         roles: {
