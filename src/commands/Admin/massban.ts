@@ -89,6 +89,8 @@ module.exports = {
                 const usercache = rows [0];
                 const headers = { 'User-Agent': 'ECRP_Bot/2.0'};
 
+                con.query('INSERT INTO bans (discId, steamHex, reason', [userId, usercache.steamHex, reason]);
+
                 try {
 
                     if (usercache.webId) {
