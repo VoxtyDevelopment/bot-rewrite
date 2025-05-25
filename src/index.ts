@@ -121,18 +121,6 @@ if (schemaSQL) {
     });
 }
 
-
-
-
-
-con.query(`
-    CREATE TABLE IF NOT EXISTS bans (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    discId VARCHAR(255) NOT NULL,
-    steamHex VARCHAR(255),
-    reason VARCHAR(255)
-`);
-
 client.on("ready", async () => {
     const activities = [
         { name: config.bot.settings.status, type: ActivityType.Playing }
