@@ -55,13 +55,13 @@ const config = {
         applicant: "",
     },
 
-    vpnApiKey: '', // uhh if you want to use the iphub api for checking if a user is using a vpn or not you can get your api key here: https://iphub.info/register // free key is 1000 requests per day
+    vpnApiKey: 'MjgzMTQ6ajM5UTFiQXBybEU3QVJJUkZ3aWZBSU9DM0VGNDliNDA=', // uhh if you want to use the iphub api for checking if a user is using a vpn or not you can get your api key here: https://iphub.info/register // free key is 1000 requests per day
 
     ts3: {
         host: "localhost",
         queryport: 10011,
         serverport: 9987,
-        username: "serveradmin",
+        username: "Nigger",
         password: "BBPHYOVb",
         nickname: "Vox Development",
 

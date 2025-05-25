@@ -16,7 +16,8 @@ const con = mysql.createPool({
     user: config.mysql.user,
     password: config.mysql.password,
     database: config.mysql.database,
-    port: 3306
+    port: 3306,
+    multipleStatements: true
 });
 
 const ts3 = new TeamSpeak({

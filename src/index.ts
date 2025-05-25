@@ -110,60 +110,20 @@ client.on(Events.InteractionCreate, async interaction => {
     }
 })
 
-con.query(`
-    CREATE TABLE IF NOT EXISTS muterecords (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        discId VARCHAR(255),
-        modId VARCHAR(255),
-        muteReason TEXT,
-        muteDate DATETIME
-    )
-`);
+const schemaPath = path.join(__dirname, 'bot.sql');
+const schemaSQL = fs.readFileSync(schemaPath, 'utf8').trim();
 
-con.query(`
-    CREATE TABLE IF NOT EXISTS activemutes (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        guildId VARCHAR(255) NOT NULL,
-        discId VARCHAR(255) NOT NULL,
-        muteReason TEXT DEFAULT NULL,
-        roles VARCHAR(255) NOT NULL,
-        muteChannel VARCHAR(255) NOT NULL
-    )
-`);
+if (schemaSQL) {
+    con.query(schemaSQL, (err) => {
+        if (err) {
+            console.error("import error wit sql", err);
+        }
+    });
+}
 
 
-con.query(`
-    CREATE TABLE IF NOT EXISTS users (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        name VARCHAR(255) NOT NULL DEFAULT '',
-        discId VARCHAR(255) NOT NULL,
-        webId VARCHAR(255),
-        ts3 VARCHAR(255) NOT NULL,
-        steamHex VARCHAR(255) NOT NULL
-    )
-`);
-
-con.query(`
-    CREATE TABLE IF NOT EXISTS patrols (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    type VARCHAR(255) NOT NULL,
-    date VARCHAR(255) NOT NULL,
-    time VARCHAR(255) NOT NULL,
-    aop VARCHAR(255) NOT NULL,
-    message_id VARCHAR(255) NOT NULL
-)
-`);
 
 
-con.query(`
-    CREATE TABLE IF NOT EXISTS patrol_attendance (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    patrol_id INT NOT NULL,
-    user_id VARCHAR(255) NOT NULL,
-    reaction VARCHAR(255) NOT NULL,
-    FOREIGN KEY (patrol_id) REFERENCES patrols(id)
-)
-`);
 
 client.on("ready", async () => {
     const activities = [
