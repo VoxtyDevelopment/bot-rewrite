@@ -61,7 +61,7 @@ const config = {
         host: "localhost",
         queryport: 10011,
         serverport: 9987,
-        username: "Nigger",
+        username: "serveradmin",
         password: "BBPHYOVb",
         nickname: "Vox Development",
 
