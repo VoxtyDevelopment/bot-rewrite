@@ -1,7 +1,7 @@
 import { TeamSpeak, QueryProtocol, TeamSpeakClient } from "ts3-nodejs-library";
 import axios from "axios";
 import config from "../config";
-import utilites, { logToDiscord } from "../extra/utilites";
+import utilites, { logToDiscord } from "../utils/main-utils";
 const ts3 = utilites.ts3 as TeamSpeak
 // 😍💕😍💕😍💕
 // 😍💕😍💕😍💕

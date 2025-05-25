@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, EmbedBuilder, ChannelType, PermissionFlagsBits, MessageFlags, ColorResolvable } from 'discord.js'
-import utilites from '../../utilites/utilites'
+import utilites from '../../utils/main-utils'
 import config from '../../config'
 const { con } = utilites
 

@@ -2,7 +2,7 @@ import { Client, Collection, Events, GatewayIntentBits, REST, Routes, SlashComma
 import config from "./config"
 import fs from 'fs';
 import path from 'path';
-import utilities from './utilites/utilites';
+import utilities from './utils/main-utils';
 const con = utilities.con;
 
 interface ExtendedClient extends Client {

@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, EmbedBuilder, Embed, Colors, ColorResolvable, MessageFlags, TextChannel } from 'discord.js';
 import config from '../../config';
-import utilities from '../../utilites/utilites';
-import { changeWebsiteRole, banWebsiteUser } from '../../utilites/utilites';
+import utilities from '../../utils/main-utils';
+import { changeWebsiteRole, banWebsiteUser } from '../../utils/main-utils';
 const con = utilities.con;
 const ts3 = utilities.ts3;
 import axios from 'axios';

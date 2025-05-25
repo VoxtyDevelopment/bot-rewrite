@@ -1,7 +1,7 @@
 const config = {
 
     bot: {
-        token: "",
+        token: "MTM1ODU3OTI3NDEzMDUyMjE2Ng.Ggs7mc.li_JFRdOjvhZajHzUUDZgAQFpNLT-ggeOhhiWQ",
         clientId: "1358579274130522166",
 
         settings: {

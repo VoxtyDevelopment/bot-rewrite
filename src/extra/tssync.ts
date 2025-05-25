@@ -1,5 +1,5 @@
 import config from '../config'
-import utilites from "../utilites/utilites";
+import utilites from "../utils/main-utils";
 const ts3 = utilites.ts3
 const con = utilites.con
 

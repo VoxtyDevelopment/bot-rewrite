@@ -1,13 +1,14 @@
 import config from '../config'
-import utilites from "../utilites/utilites";
+import utilites from "../utils/main-utils";
 import axios from 'axios';
 const ts3 = utilites.ts3
 const con = utilites.con
-import { changeWebsiteRole, banWebsiteUser } from "../utilites/utilites";
+import { changeWebsiteRole, banWebsiteUser } from "../utils/main-utils";
 
 module.exports = {
     once: true,
     name: 'ready',
+
     async execute(client) {
         client.on('guildMemberRemove', async (member) => {
             const userId = member.id;
