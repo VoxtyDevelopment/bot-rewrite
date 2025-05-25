@@ -1,7 +1,7 @@
 const config = {
 
     bot: {
-        token: "MTM1ODU3OTI3NDEzMDUyMjE2Ng.Ggs7mc.li_JFRdOjvhZajHzUUDZgAQFpNLT-ggeOhhiWQ",
+        token: "",
         clientId: "1358579274130522166",
 
         settings: {
@@ -61,8 +61,8 @@ const config = {
         host: "localhost",
         queryport: 10011,
         serverport: 9987,
-        username: "serveradmin",
-        password: "BBPHYOVb",
+        username: "serveradmin2",
+        password: "5JuOg667",
         nickname: "Vox Development",
 
         roles: {

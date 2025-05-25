@@ -41,30 +41,6 @@ export async function changeWebsiteRole(webid: string, roleid: string) {
   }
 };
 
-/**
- * logs event to discord!!!
- * @param client Discord.js Client instance
- * @param title Title of the embed
- * @param fields Array of fields for the embed
- */
-export async function logToDiscord(client: Client, title: string, fields: { name: string, value: string, inline?: boolean }[]) {
-    try {
-        const logChannel = client.channels.cache.get(config.channels.logs);
-        if (!logChannel || !logChannel.isTextBased()) return;
-
-        const embed = new EmbedBuilder()
-            .setTitle(title)
-            .setColor(config.bot.settings.embedcolor as ColorResolvable)
-            .setImage(config.server.logo)
-            .setTimestamp()
-            .setFooter({ text: config.bot.settings.embedfooter, iconURL: config.server.logo })
-            .addFields(fields);
-
-            if (logChannel && 'send' in logChannel) await logChannel.send({ embeds: [embed] });
-    } catch (err) {
-        console.error("Failed to log to Discord:", err);
-    }
-}
 
 export async function banWebsiteUser(webid: string) {
   try {
@@ -78,4 +54,4 @@ export async function banWebsiteUser(webid: string) {
   }
 }
 
-export default { con, ts3, logToDiscord };
+export default { con, ts3 };
