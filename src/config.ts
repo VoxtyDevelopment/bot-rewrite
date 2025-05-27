@@ -1,8 +1,10 @@
 const config = {
 
+    licensekey: "mb3tpihl-meegkh5l",
+
     bot: {
-        token: "MTM1ODU3OTI3NDEzMDUyMjE2Ng.Ggs7mc.li_JFRdOjvhZajHzUUDZgAQFpNLT-ggeOhhiWQ",
-        clientId: "1358579274130522166",
+        token: "",
+        clientId: "",
 
         settings: {
             status: "Watching the sunrise on the eastcoast",
