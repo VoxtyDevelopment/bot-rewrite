@@ -43,10 +43,7 @@ module.exports = {
             const guildId = i.values[0];
             const selectedGuild = client.guilds.cache.get(guildId);
             if (!selectedGuild) {
-                return i.reply({
-                    content: "Guild not found or already left.",
-                    ephemeral: true
-                });
+                return i.reply({ content: "Guild not found or already left.", ephemeral: true });
             }
 
             try {
