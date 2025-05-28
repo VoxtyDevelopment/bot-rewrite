@@ -110,7 +110,7 @@ const config = {
             safr: "",
             civ: "",
             comms: "",
-            rnt: "",
+            rnt: "1376451975759138877",
             dev: "",
             media: "",
         },
@@ -138,7 +138,8 @@ const config = {
 
     channels: {
         logs: "1373986522633867264",
-        leaveLogs: "1373986522633867264"
+        leaveLogs: "1373986522633867264",
+        ticketCategory: "1347954357852962907",
     },
 }
 

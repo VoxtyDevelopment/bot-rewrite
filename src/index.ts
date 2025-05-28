@@ -110,7 +110,7 @@ client.on(Events.InteractionCreate, async interaction => {
     }
 })
 
-const schemaPath = path.join(__dirname, 'bot.sql');
+const schemaPath = path.join(__dirname, 'sql', 'bot.sql');
 const schemaSQL = fs.readFileSync(schemaPath, 'utf8').trim();
 
 if (schemaSQL) {
@@ -120,6 +120,7 @@ if (schemaSQL) {
         }
     });
 }
+
 
 client.on("ready", async () => {
     const activities = [
