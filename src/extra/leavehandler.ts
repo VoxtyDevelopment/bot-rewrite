@@ -11,6 +11,8 @@ module.exports = {
 
     async execute(client) {
         client.on('guildMemberRemove', async (member) => {
+            if (member.user.bot) return;
+            
             const userId = member.id;
             con.query('SELECT * FROM users WHERE discId = ?', [userId], async (err, rows) => {
                 if (!rows[0]) return console.log('There was an error fetching the users information from the database.');
