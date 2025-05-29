@@ -2,6 +2,7 @@ import { TeamSpeak } from "ts3-nodejs-library";
 import config from "../config";
 import mysql from 'mysql2';
 import axios from 'axios';
+import { post } from 'superagent';
 import https from 'https';
 import { EmbedBuilder, Client, ColorResolvable } from 'discord.js';
 import { client } from "../index";
@@ -56,27 +57,23 @@ export async function logToDiscord(title: string, fields: { name: string, value:
 }
 
 export async function changeWebsiteRole(webid: string, roleid: string) {
-    try {
-        await axios.post(
-            `https://${config.invision.domain}/api/core/members/${webid}?group=${roleid}&key=${config.invision.api}`,
-            {},
-            { headers, httpsAgent }
-        );
-    } catch (error) {
-        return console.error(error);
-    }
+     post(`https://${config.invision.domain}/api/index.php?/core/members/${webid}?group=${roleid}&key=${config.invision.api}`) // sets their group ID to the default (applicant role for most)
+        .set('User-Agent', 'ECRP_Bot/2.0')
+        .end((err, res) => {
+        if(err) {
+            console.log(err)
+        }
+    })
 };
 
 export async function banWebsiteUser(webid: string) {
-    try {
-        await axios.post(
-            `https://${config.invision.domain}/api/core/members/${webid}/warnings?suspendPermanent&moderator=1&points=100&key=${config.invision.api}`,
-            {},
-            { headers, httpsAgent }
-        );
-    } catch (error) {
-        return console.error(error);
-    }
+    post(`https://${config.invision.domain}/api/index.php?/core/members/${webid}/warnings?moderator=1&suspendPermanent&points=100&key=${config.invision.api}`) // bans the user from the website
+        .set('User-Agent', 'ECRP_Bot/2.0')
+        .end((err, res) => {
+        if(err) {
+            console.log(err)
+        }
+    })
 }
 
 export default {

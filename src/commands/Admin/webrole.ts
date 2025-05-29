@@ -70,7 +70,7 @@ module.exports = {
 
             logChannel.send({ embeds: [log] });
 
-        post(`https://${config.invision.domain}/api/core/members/${webId}?group=${newRole}&key=${config.invision.api}`)
+        post(`https://${config.invision.domain}/api/index.php?/core/members/${webId}?group=${newRole}&key=${config.invision.api}`)
             .set('User-Agent', 'ECRP_Bot/1.0')
             .end((err, res) => {
                 if (err) {
