@@ -61,7 +61,7 @@ module.exports = {
             }
 
             const webLink = userData.webId
-            ? `[View Profile](${config.invision.domain}/profile/${userData.webId}-VOXDEVBOT/)`
+            ? `[View Profile](https://${config.invision.domain}/profile/${userData.webId}-VOXDEVBOT/)`
             : 'Not Provided';
 
 
