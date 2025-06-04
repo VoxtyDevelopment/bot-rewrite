@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, EmbedBuilder, MessageFlags, ColorResolvable } from 'discord.js';
 import config from '../../config';
 import mysql from 'mysql2/promise';
+import { cleanURL } from '../../utils/main-utils';
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -15,6 +16,7 @@ module.exports = {
     async execute(interaction, client) {
         const sitRole = interaction.guild.roles.cache.get(config.roles.sit);
         const hasPermission = sitRole && sitRole.position <= interaction.member.roles.highest.position;
+        const invisiondomain = cleanURL(config.invision.domain);
 
         if (!hasPermission) {
             return interaction.reply({
@@ -61,7 +63,7 @@ module.exports = {
             }
 
             const webLink = userData.webId
-            ? `[View Profile](${config.invision.domain}/profile/${userData.webId}-VOXDEVBOT/)`
+            ? `[View Profile](${invisiondomain}/profile/${userData.webId}-VOXDEVBOT/)`
             : 'Not Provided';
 
 

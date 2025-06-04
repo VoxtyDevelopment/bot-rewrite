@@ -8,6 +8,7 @@ import { EmbedBuilder, Client, ColorResolvable } from 'discord.js';
 import { client } from "../index";
 
 const headers = { 'User-Agent': 'ECRP_Bot/2.0' };
+const invisiondomain = cleanURL(config.invision.domain);
 
 const httpsAgent = new https.Agent({
     rejectUnauthorized: false
@@ -57,7 +58,7 @@ export async function logToDiscord(title: string, fields: { name: string, value:
 }
 
 export async function changeWebsiteRole(webid: string, roleid: string) {
-     post(`https://${config.invision.domain}/api/index.php?/core/members/${webid}?group=${roleid}&key=${config.invision.api}`) // sets their group ID to the default (applicant role for most)
+     post(`https://${invisiondomain}/api/index.php?/core/members/${webid}?group=${roleid}&key=${config.invision.api}`) // sets their group ID to the default (applicant role for most)
         .set('User-Agent', 'ECRP_Bot/2.0')
         .end((err, res) => {
         if(err) {
@@ -67,13 +68,31 @@ export async function changeWebsiteRole(webid: string, roleid: string) {
 };
 
 export async function banWebsiteUser(webid: string) {
-    post(`https://${config.invision.domain}/api/index.php?/core/members/${webid}/warnings?moderator=1&suspendPermanent&points=100&key=${config.invision.api}`) // bans the user from the website
+    post(`https://${invisiondomain}/api/index.php?/core/members/${webid}/warnings?moderator=1&suspendPermanent&points=100&key=${config.invision.api}`) // bans the user from the website
         .set('User-Agent', 'ECRP_Bot/2.0')
         .end((err, res) => {
         if(err) {
             console.log(err)
         }
     })
+}
+
+export function cleanURL(input: string) {
+    let result = input;
+
+    if (result.startsWith('https://')) {
+        result = result.slice(8);
+    }
+
+    if (result.startsWith('http://')) {
+        result = result.slice(7);
+    }
+
+    if (result.endsWith('/')) {
+        result = result.slice(0, -1);
+    }
+
+    return result;
 }
 
 export default {
