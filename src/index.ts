@@ -149,11 +149,14 @@ const rest = new REST({ version: '10' }).setToken(config.bot.token);
     }
 })();
 
-const eventFiles = fs.readdirSync(path.join(__dirname, 'extra')).filter(file => file.endsWith('.ts'));
-for(const file of eventFiles) {
-    const filePath = `./extra/${file}`
-    const event = require(filePath)
-    if(event.once) {
+const eventFiles = fs.readdirSync(path.join(__dirname, 'extra'))
+    .filter(file => file.endsWith('.ts') || file.endsWith('.js'));
+
+for (const file of eventFiles) {
+    const filePath = `./extra/${file}`;
+    const event = require(filePath);
+
+    if (event.once) {
         client.once(event.name, (...args) => event.execute(...args));
     } else {
         client.on(event.name, (...args) => event.execute(...args));
