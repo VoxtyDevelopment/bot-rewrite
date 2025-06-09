@@ -25,12 +25,12 @@ module.exports = {
         if (interaction.guildId !== config.guilds.mainGuild) {
             await interaction.reply({
                 content: 'This command is only available in the main guild.',
-                ephemeral: true
+                flags: MessageFlags.Ephemeral
             });
             return;
         }
 
-        await interaction.deferReply({ ephemeral: true });
+        await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
         const member = interaction.member as GuildMember;
         const reqRole = interaction.guild.roles.cache.find(r => r.id === config.roles.sit);
@@ -38,7 +38,7 @@ module.exports = {
         if (!reqRole) {
             return interaction.followUp({
                 content: 'Required role not found in this server.',
-                ephemeral: true
+                flags: MessageFlags.Ephemeral
             });
         }
 
@@ -46,7 +46,7 @@ module.exports = {
         if (!hasPermission) {
             return interaction.followUp({
                 content: 'You do not have permission to use this command.',
-                ephemeral: true
+                flags: MessageFlags.Ephemeral
             });
         }
 

@@ -43,15 +43,15 @@ module.exports = {
             const guildId = i.values[0];
             const selectedGuild = client.guilds.cache.get(guildId);
             if (!selectedGuild) {
-                return i.reply({ content: "Guild not found or already left.", ephemeral: true });
+                return i.reply({ content: "Guild not found or already left.", flags: MessageFlags.Ephemeral });
             }
 
             try {
                 await selectedGuild.leave();
-                await i.reply({ content: `Successfully left guild: **${selectedGuild.name}** (${selectedGuild.id})`, ephemeral: true });
+                await i.reply({ content: `Successfully left guild: **${selectedGuild.name}** (${selectedGuild.id})`, flags: MessageFlags.Ephemeral });
             } catch (err) {
                 console.error(`Failed to leave guild: ${selectedGuild.id}`, err);
-                await i.reply({ content: "An error occurred while trying to leave the guild.", ephemeral: true });
+                await i.reply({ content: "An error occurred while trying to leave the guild.", flags: MessageFlags.Ephemeral });
             }
         });
 

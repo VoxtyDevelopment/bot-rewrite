@@ -1,9 +1,9 @@
 import config from '../config'
 import utilites from "../utils/main-utils";
-import axios from 'axios';
 const ts3 = utilites.ts3
 const con = utilites.con
 import { changeWebsiteRole, banWebsiteUser } from "../utils/main-utils";
+import { resetUser } from '../utils/ts3Utils';
 
 module.exports = {
     once: true,
@@ -11,7 +11,11 @@ module.exports = {
 
     async execute(client) {
         client.on('guildMemberRemove', async (member) => {
+            const requiredRoles = [config.roles.member, config.roles.sit, config.roles.staff, config.roles.sstaff, config.roles.jadmin, config.roles.admin]
             if (member.user.bot) return;
+            if (member.guild.id !== config.guilds.mainGuild) return;
+            const hadRequiredRole = member.roles.cache.some(role => requiredRoles.includes(role.id));
+            if (!hadRequiredRole) return;
             
             const userId = member.id;
             con.query('SELECT * FROM users WHERE discId = ?', [userId], async (err, rows) => {
@@ -54,6 +58,7 @@ module.exports = {
                     }
 
                     try {
+                        resetUser(usercache.ts3);
                         await ts3.execute('banadd', {
                             uid: usercache.ts3,
                             time: 2592000, // 30d
@@ -80,6 +85,11 @@ module.exports = {
                             await guild.members.ban(userId, { reason: `Improper resigination` });
                         } catch (error) {
                             console.error(`Error banning user <@${userId}> in server ${guild.id}:`, error);
+                        }
+                    });
+                    con.query('DELETE FROM users WHERE discId = ?', [userId], (err) => {
+                        if (err) {
+                            console.error('Error deleting user from database:', err);
                         }
                     });
                 } catch (error) {

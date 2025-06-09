@@ -1,10 +1,10 @@
-import { SlashCommandBuilder, EmbedBuilder, Colors, ColorResolvable, TextChannel, GuildMember } from 'discord.js';
+import { SlashCommandBuilder, EmbedBuilder, Colors, ColorResolvable, TextChannel, GuildMember, MessageFlags } from 'discord.js';
 import config from '../../config';
 import utilities from '../../utils/main-utils';
-import axios from 'axios';
-
+import { changeWebsiteRole, banWebsiteUser } from '../../utils/main-utils';
 const con = utilities.con;
 const ts3 = utilities.ts3;
+import { resetUser } from '../../utils/ts3Utils';
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -34,12 +34,12 @@ module.exports = {
         if (interaction.guildId !== config.guilds.mainGuild) {
             await interaction.reply({
                 content: 'This command is only available in the main guild.',
-                ephemeral: true
+                MessageFlags: MessageFlags.Ephemeral
             });
             return;
         }
 
-        await interaction.deferReply({ ephemeral: true });
+        await interaction.deferReply({ MessageFlags: MessageFlags.Ephemeral });
 
         const user = interaction.options.getUser('user');
         const resignationType = interaction.options.getString('type');
@@ -48,7 +48,7 @@ module.exports = {
         if (days < 1 || days > 365) {
             return interaction.followUp({
                 content: 'Please provide a resignation period between 1 and 365 days.',
-                ephemeral: true
+                MessageFlags: MessageFlags.Ephemeral
             });
         }
 
@@ -58,7 +58,7 @@ module.exports = {
         if (!reqRole) {
             return interaction.followUp({
                 content: 'Required role not found in this server.',
-                ephemeral: true
+                MessageFlags: MessageFlags.Ephemeral
             });
         }
 
@@ -66,7 +66,7 @@ module.exports = {
         if (!permissions) {
             return interaction.followUp({
                 content: 'You do not have permission to use this command.',
-                ephemeral: true
+                MessageFlags: MessageFlags.Ephemeral
             });
         }
 
@@ -127,33 +127,24 @@ module.exports = {
                 console.log(`User <@${userId}> not found in the DB. Only Discord ban was applied.`);
                 return interaction.followUp({
                     content: `User <@${userId}> not found in the DB. Only Discord ban was applied.`,
-                    ephemeral: true
+                    MessageFlags: MessageFlags.Ephemeral
                 });
             }
 
             const usercache = rows[0];
-            const headers = { 'User-Agent': 'ECRP_Bot/2.0' };
 
             try { 
                 if (usercache.webId) {
                     try {
-                        await axios.post(
-                            `https://${config.invision.domain}/api/core/members/${usercache.webId}/warnings?points=100&moderator=1&key=${config.invision.api}`,
-                            {},
-                            { headers }
-                        );
-
-                        await axios.post(
-                            `https://${config.invision.domain}/api/core/members/${usercache.webId}?group=3&key=${config.invision.api}`,
-                            {},
-                            { headers }
-                        );
+                        await banWebsiteUser(usercache.webId);
+                        await changeWebsiteRole(usercache.webId, config.invision.applicant);
                     } catch (error) {
                         console.error(`Website action failed for user (webId: ${usercache.webId}):`, error.message);
                     }
                 }
 
                 try {
+                    await resetUser(usercache.ts3);
                     await ts3.execute('banadd', {
                         uid: usercache.ts3,
                         time: days * 86400,
@@ -164,19 +155,18 @@ module.exports = {
                     ts3.quit;
                 }
 
-                // Remove from users table
                 con.query('DELETE FROM users WHERE discId = ?', [user.id]);
 
                 return interaction.followUp({
                     content: `User <@${userId}> has resigned from all ${config.server.name} assets for ${days} day(s) as a ${resignationType} resignation.`,
-                    ephemeral: true
+                    MessageFlags: MessageFlags.Ephemeral
                 });
 
             } catch (err) {
                 console.error(err);
                 return interaction.followUp({
                     content: 'Error occurred while resigning user from other platforms. Discord part succeeded.',
-                    ephemeral: true
+                    MessageFlags: MessageFlags.Ephemeral
                 });
             }
         });

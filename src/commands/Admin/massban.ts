@@ -4,12 +4,7 @@ import utilities from '../../utils/main-utils';
 import { changeWebsiteRole, banWebsiteUser } from '../../utils/main-utils';
 const con = utilities.con;
 const ts3 = utilities.ts3;
-import axios from 'axios';
-import https from 'https';
-
-const httpsAgent = new https.Agent({
-    rejectUnauthorized: false
-});
+import { resetUser } from '../../utils/ts3Utils'
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -87,12 +82,10 @@ module.exports = {
                 if (!rows[0]) return console.log('There was an error fetching the users information from the database, user has still been banned from discords.');
 
                 const usercache = rows [0];
-                const headers = { 'User-Agent': 'ECRP_Bot/2.0'};
 
                 con.query('INSERT INTO bans (discId, steamHex, reason', [userId, usercache.steamHex, reason]);
 
                 try {
-
                     if (usercache.webId) {
                         try {
                             await banWebsiteUser(usercache.webId);
@@ -105,6 +98,7 @@ module.exports = {
                     }
 
                     try {
+                        await resetUser(usercache.ts3);
                         await ts3.execute('banadd', {
                             uid: usercache.ts3,
                             time: 0,
@@ -117,8 +111,6 @@ module.exports = {
                     console.error(err);
                     return interaction.reply({ content: 'There was an error banning this user from the website or teamspeak, they have been banned from all discords.', flags: MessageFlags.Ephemeral });
                 }
-
-
             });
             
             await interaction.reply({ content: `User <@${userId}> has been massbanned from all ${config.server.name} assets.` });

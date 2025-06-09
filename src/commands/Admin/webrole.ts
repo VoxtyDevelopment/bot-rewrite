@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, EmbedBuilder, ColorResolvable, ChatInputCommandInteraction, Client, GuildMember } from 'discord.js';
+import { SlashCommandBuilder, EmbedBuilder, ColorResolvable, ChatInputCommandInteraction, Client, GuildMember, MessageFlags } from 'discord.js';
 import { post } from 'superagent';
 import config from '../../config';
 import { cleanURL } from '../../utils/main-utils';
@@ -27,7 +27,7 @@ module.exports = {
                 .setRequired(true)),
     async execute(interaction: ChatInputCommandInteraction, client: Client, con: Connection) {
         if (interaction.guild?.id !== config.guilds.mainGuild) {
-            return interaction.reply({ content: "This command can only be used in the main guild.", ephemeral: true });
+            return interaction.reply({ content: "This command can only be used in the main guild.", flags: MessageFlags.Ephemeral });
         }
 
         const newRole = interaction.options.getString('role', true);
@@ -36,7 +36,7 @@ module.exports = {
         const invisiondomain = cleanURL(config.invision.domain);
 
         if (!logChannel?.isTextBased() || !('send' in logChannel)) {
-            return interaction.reply({ content: "Log channel is not properly configured.", ephemeral: true });
+            return interaction.reply({ content: "Log channel is not properly configured.", flags: MessageFlags.Ephemeral });
         }
 
         const member = interaction.member as GuildMember;
@@ -45,7 +45,7 @@ module.exports = {
         if (!reqRole) {
             return interaction.followUp({
                 content: 'Required role not found in this server.',
-                ephemeral: true
+                flags: MessageFlags.Ephemeral
             });
         }
 
@@ -53,7 +53,7 @@ module.exports = {
         if (!permissions) {
             return interaction.followUp({
                 content: 'You do not have permission to use this command.',
-                ephemeral: true
+                flags: MessageFlags.Ephemeral
             });
         }
 
@@ -77,7 +77,7 @@ module.exports = {
             .end((err, res) => {
                 if (err) {
                     console.error(err);
-                    return interaction.reply({ content: "An error occurred while updating the web role.", ephemeral: true });
+                    return interaction.reply({ content: "An error occurred while updating the web role.", flags: MessageFlags.Ephemeral });
                 }
                 return interaction.reply(`I have changed Web ID \`${webId}\`'s primary web role to role ID: \`${newRole}\``);
             });
