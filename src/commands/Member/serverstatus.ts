@@ -1,6 +1,6 @@
-const { SlashCommandBuilder, EmbedBuilder, MessageFlags } = require('discord.js');
-const { get } = require("superagent");
-const config = require('../../config');
+import { SlashCommandBuilder, EmbedBuilder, MessageFlags, ColorResolvable } from 'discord.js';
+import { get } from 'superagent';
+import config from '../../config';
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -36,7 +36,7 @@ module.exports = {
 
             const statusEmbed = new EmbedBuilder()
                 .setTitle(serverName)
-                .setColor(config.bot.settings.embedcolor)
+                .setColor(config.bot.settings.embedcolor as ColorResolvable)
                 .setDescription(`This is the current server status for \`${serverName}\`\n\n**Player Count**: \`${players}/64\``)
                 .setImage(config.server.logo)
                 .setTimestamp()
@@ -59,7 +59,7 @@ module.exports = {
 
             const logEmbed = new EmbedBuilder()
                 .setTitle("Status Command Used")
-                .setColor(config.bot.settings.embedcolor)
+                .setColor(config.bot.settings.embedcolor as ColorResolvable)
                 .setImage(config.server.logo)
                 .setTimestamp()
                 .setFooter({ text: config.bot.settings.embedfooter, iconURL: config.server.logo })

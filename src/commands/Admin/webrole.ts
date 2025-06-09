@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, EmbedBuilder, ColorResolvable, ChatInputCommandInteraction, Client, GuildMember } from 'discord.js';
 import { post } from 'superagent';
 import config from '../../config';
+import { cleanURL } from '../../utils/main-utils';
 import { Connection } from 'mysql2';
 // idek if this works i dont have a website to test it on
 module.exports = {
@@ -32,6 +33,7 @@ module.exports = {
         const newRole = interaction.options.getString('role', true);
         const webId = interaction.options.getString("id", true);
         const logChannel = client.channels.cache.get(config.channels.logs);
+        const invisiondomain = cleanURL(config.invision.domain);
 
         if (!logChannel?.isTextBased() || !('send' in logChannel)) {
             return interaction.reply({ content: "Log channel is not properly configured.", ephemeral: true });
@@ -70,7 +72,7 @@ module.exports = {
 
             logChannel.send({ embeds: [log] });
 
-        post(`https://${config.invision.domain}/api/core/members/${webId}?group=${newRole}&key=${config.invision.api}`)
+        post(`https://${invisiondomain}/api/index.php?/core/members/${webId}?group=${newRole}&key=${config.invision.api}`)
             .set('User-Agent', 'ECRP_Bot/1.0')
             .end((err, res) => {
                 if (err) {
