@@ -1,4 +1,5 @@
 import config from '../config'
+import { Logger } from '../index'
 
 const roleconfig = {
     mainServerGuildId: config.guilds.mainGuild,
@@ -29,7 +30,6 @@ const roleconfig = {
             fanServerRoleId: `${config.roles.fan.member}`
         }
     ]
-
 }
 
 module.exports = {
@@ -40,62 +40,64 @@ module.exports = {
             if (oldMember.roles.cache.size !== newMember.roles.cache.size) {
                 if (Array.isArray(roleconfig.roleMappings)) {
                     for (const mapping of roleconfig.roleMappings) {
+                        // Role Added
                         if (!oldMember.roles.cache.has(mapping.mainServerRoleId) && newMember.roles.cache.has(mapping.mainServerRoleId)) {
                             try {
                                 const fanServerGuild = client.guilds.cache.get(roleconfig.fanServerGuildId);
                                 if (!fanServerGuild) {
-                                    console.log('Fan server not found.');
+                                    Logger.warn('Fan server not found.');
                                     return;
                                 }
-        
+
                                 const fanServerRole = fanServerGuild.roles.cache.get(mapping.fanServerRoleId);
                                 if (fanServerRole) {
-                                    await fanServerGuild.members.fetch(newMember.user.id).then(member => {
-                                        member.roles.add(fanServerRole);
-                                    });
+                                    const member = await fanServerGuild.members.fetch(newMember.user.id);
+                                    await member.roles.add(fanServerRole);
+                                    Logger.info(`Synced role: Added ${fanServerRole.name} to ${member.user.tag}`);
                                 } else {
-                                    console.log('Fan server role not found.');
+                                    Logger.warn('Fan server role not found.');
                                 }
                             } catch (error: any) {
                                 if (error.code === 10007) {
-                                    console.log(`User ${newMember.user.tag} is not in the fan server. Skipping.`);
+                                    Logger.warn(`User ${newMember.user.tag} is not in the fan server. Skipping.`);
                                 } else {
-                                    console.error(`Error syncing role in fan server:`, error);
+                                    Logger.error('Error syncing role in fan server:', error);
                                 }
                             }
                         }
-        
+
+                        // Role Removed
                         if (oldMember.roles.cache.has(mapping.mainServerRoleId) && !newMember.roles.cache.has(mapping.mainServerRoleId)) {
                             try {
                                 const fanServerGuild = client.guilds.cache.get(roleconfig.fanServerGuildId);
                                 if (!fanServerGuild) {
-                                    console.log('Fan server not found.');
+                                    Logger.warn('Fan server not found.');
                                     return;
                                 }
-        
+
                                 const fanServerRole = fanServerGuild.roles.cache.get(mapping.fanServerRoleId);
                                 if (fanServerRole) {
-                                    await fanServerGuild.members.fetch(newMember.user.id).then(member => {
-                                        member.roles.remove(fanServerRole);
-                                    });
+                                    const member = await fanServerGuild.members.fetch(newMember.user.id);
+                                    await member.roles.remove(fanServerRole);
+                                    Logger.info(`Synced role: Removed ${fanServerRole.name} from ${member.user.tag}`);
                                 } else {
-                                    console.log('Fan server role not found.');
+                                    Logger.warn('Fan server role not found.');
                                 }
                             } catch (error: any) {
                                 if (error.code === 10007) {
-                                    console.log(`User ${newMember.user.tag} is not in the fan server. Skipping.`);
+                                    Logger.warn(`User ${newMember.user.tag} is not in the fan server. Skipping.`);
                                 } else {
-                                    console.error(`Error syncing role in fan server:`, error);
+                                    Logger.error('Error syncing role in fan server:', error);
                                 }
                             }
                         }
                     }
                 } else {
-                    console.error('roleMappings is not an array.');
+                    Logger.error('roleMappings is not an array.');
                 }
             }
-        });       
+        });
 
-        console.log("Services Are Running");
+        Logger.info('Bot | Online');
     }
 }

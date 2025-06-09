@@ -45,6 +45,7 @@ function getAllFiles(dirPath: string, fileList: string[] = []): string[] {
     return fileList;
 }
 
+/*
 client.on('ready', async () => {
     async function checkLicenseKeyInAPI(key: string): Promise<boolean> {
         try {
@@ -111,7 +112,8 @@ client.on('ready', async () => {
         await guildInvites(client);
         process.exit(1);
     }
-})
+});
+*/
 
 client.commands = new Collection();
 
@@ -134,24 +136,26 @@ const rest = new REST({ version: '10' }).setToken(config.bot.token);
 
 (async () => {
     try {
-        console.log(`Started refreshing ${commands.length} application (/) commands.`);
+        console.log(`Reloaded | ${commands.length} commands.`);
 
         await rest.put(
             Routes.applicationCommands(config.bot.clientId),
             { body: commands },
         );
 
-        console.log(`Successfully reloaded application (/) commands.`);
     } catch (error) {
         console.error(error);
     }
 })();
 
-const eventFiles = fs.readdirSync(path.join(__dirname, 'extra')).filter(file => file.endsWith('.ts'));
-for(const file of eventFiles) {
-    const filePath = `./extra/${file}`
-    const event = require(filePath)
-    if(event.once) {
+const eventFiles = fs.readdirSync(path.join(__dirname, 'extra'))
+    .filter(file => file.endsWith('.ts') || file.endsWith('.js'));
+
+for (const file of eventFiles) {
+    const filePath = `./extra/${file}`;
+    const event = require(filePath);
+
+    if (event.once) {
         client.once(event.name, (...args) => event.execute(...args));
     } else {
         client.on(event.name, (...args) => event.execute(...args));
@@ -210,7 +214,74 @@ client.on("ready", async () => {
     }, 300000);
 })
 
+import { existsSync, mkdirSync, appendFileSync } from 'fs';
 
+export class Logger {
+    private logDir = path.join(__dirname, '../logs');
+    static loggerObj = new Logger();
+    static debug(...parameters: unknown[]): void {
+        this.loggerObj.writeToLogFile('DEBUG', ...parameters);
+        console.log(...parameters);
+    }
+    static info(...parameters: unknown[]): void {
+        this.loggerObj.writeToLogFile('INFO', ...parameters);
+        console.log(...parameters);
+    }
+    static warn(...parameters: unknown[]): void {
+        this.loggerObj.writeToLogFile('WARN', ...parameters);
+        console.warn(...parameters);
+    }
+    static error(...parameters: unknown[]): void {
+        this.loggerObj.writeToLogFile('ERROR', ...parameters);
+        console.error(...parameters);
+    }
+    static fatal(...parameters: unknown[]): void {
+        this.loggerObj.writeToLogFile('FATAL', ...parameters);
+        console.error(...parameters);
+    }
+
+    writeToLogFile(
+        logLevel: 'DEBUG' | 'INFO' | 'WARN' | 'ERROR' | 'FATAL',
+        ...parameters: unknown[]
+    ): void {
+        if (!existsSync(this.logDir)) {
+            mkdirSync(this.logDir);
+            Logger.debug('LOGGER', 'Created logs folder!');
+        }
+        appendFileSync(
+            path.join(this.logDir, '/latest.log'),
+            Buffer.from(
+                logLevel +
+                    ': [' +
+                    new Date().toISOString() +
+                    ']' +
+                    '\t' +
+                    parameters.join(' | ') +
+                    `\n`
+            )
+        );
+        appendFileSync(
+            path.join(
+                this.logDir,
+                new Date().toISOString().slice(0, 10) + '.log'
+            ),
+            Buffer.from(
+                logLevel +
+                    ': [' +
+                    new Date().toISOString() +
+                    ']' +
+                    '\t' +
+                    parameters.join(' | ') +
+                    `\n`
+            )
+        );
+    }
+}
+import { startNewTs3Bot } from './utils/ts3Utils';
+startNewTs3Bot().catch((err) => {
+    Logger.error('TS3 | TS3 ERROR');
+    Logger.error(err);
+});
 
 
 client.login(config.bot.token)

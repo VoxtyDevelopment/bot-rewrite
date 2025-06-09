@@ -21,7 +21,8 @@
     "googleapis": "^148.0.0",
     "mysql2": "^3.14.0",
     "superagent": "^10.2.0",
-    "ts3-nodejs-library": "^3.5.1"
+    "ts3-nodejs-library": "^3.5.1",
+    "ts3-nodejs-scentral": "^3.4.3"
   },
   "devDependencies": {
     "@types/node": "^22.14.1",

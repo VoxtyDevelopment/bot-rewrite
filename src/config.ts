@@ -4,7 +4,7 @@ const config = {
 
     bot: {
         token: "",
-        clientId: "",
+        clientId: "1358579274130522166",
 
         settings: {
             status: "Watching the sunrise on the eastcoast",
@@ -63,8 +63,8 @@ const config = {
         host: "localhost",
         queryport: 10011,
         serverport: 9987,
-        username: "serveradmin2",
-        password: "5JuOg667",
+        username: "serveradmin",
+        password: "BRfCc63X",
         nickname: "Vox Development",
 
         roles: {
@@ -74,9 +74,56 @@ const config = {
             staff: "267",
             sit: "267",
             member: "468"
-        }
+        },
+        groupIDs: {
+            VPNBYPASS: 638,
+            DND: 330,
+            QUEUEBYPASS: 636,
+            COOKIE: 439,
+            SEESTAFF: 239,
+            SEEADMIN: 287,
+            SEEHA: 240,
+            SEEIA: 238,
+            MEMBER: 128,
+            RSTAFF: 438,
+            RADMIN: 148,
+            SIT: 19,
+            STAFF: 18,
+            SRSTAFF: 17,    
+            JRADMIN: 16,
+            ADMIN: 15,
+            SRADMIN: 152,
+            HEADADMIN: 153,
+        },
+        whitelistedChannelIds: [2, 1, 41, 43, 46, 48],
+        whitelistedWaitingRoomIds: [285, 286, 2, 44, 47, 49],
+        aopChannels: {
+            s1: 66,
+            s2: 81,
+        },
+        RTOChannels: {
+            s1: 70,
+            s2: 84,
+        },
+        fastTravelChannels: [287, 288],
+        dispatchTags: [
+            '(P)',
+            '(S)',
+            '(T)',
+            '(FIRE)',
+            '(QA)',
+            '(EVAL)',
+            '(911)',
+            '[P]',
+            '[S]',
+            '[T]',
+            '[FIRE]',
+            '[QA]',
+            '[EVAL]',
+            '[911]',
+        ],
+        addonTags: ['(TOW)', '(SCANNER)', '(L)', '[TOW]', '[SCANNER]', '[L]'],
     },
-
     server: {
         name: "Vox Development",
         fivemip: '127.0.0.1:30120', // e.g 127.0.0.1:30120
