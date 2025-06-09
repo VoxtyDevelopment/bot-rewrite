@@ -98,8 +98,8 @@ const config = {
         whitelistedChannelIds: [2, 1, 41, 43, 46, 48],
         whitelistedWaitingRoomIds: [285, 286, 2, 44, 47, 49],
         aopChannels: {
-            s1: 66,
-            s2: 81,
+            s1: 289,
+            s2: 290,
         },
         RTOChannels: {
             s1: 70,
