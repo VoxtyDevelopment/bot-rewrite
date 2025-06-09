@@ -9,7 +9,7 @@ const config = {
         settings: {
             status: "Watching the sunrise on the eastcoast",
             embedcolor: "#1ABC9C",
-            embedfooter: "fat nigger"
+            embedfooter: "Vox Development",
         },
     },
  
