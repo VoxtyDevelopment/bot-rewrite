@@ -1,6 +1,8 @@
 import { SlashCommandBuilder, EmbedBuilder, Colors, ColorResolvable, TextChannel, GuildMember, MessageFlags } from 'discord.js';
 import config from '../../config';
 import { setAOP } from '../../utils/ts3Utils';
+import utilites from '../../utils/main-utils';
+const con = utilites.con;
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -57,6 +59,16 @@ module.exports = {
 
         try {
             await setAOP(aop, setBy, server ?? 's1');
+
+            con.query('DELETE FROM aop WHERE serverName = ?', [server ?? 's1'], (err) => {
+                if (err) {
+                    console.error('Error deleting previous AOP:', err);
+                    throw new Error('DATABASE_ERROR');
+                }
+            }
+            );
+            
+            con.query('INSERT INTO aop (aop, setBy, serverName) VALUES (?, ?, ?)', [aop, setBy, server ?? 's1']);
 
             const embed = new EmbedBuilder()
                 .setTitle('AOP Updated')

@@ -3,13 +3,13 @@ const config = {
     licensekey: "mb3tpihl-meegkh5l",
 
     bot: {
-        token: "",
-        clientId: "1358579274130522166",
+        token: "MTI0NzQ2ODQwMzQwOTgxMzYyNQ.GbbfTy.s2200PvHgGSfQ5bQGXOmllsZ8yg0etqaSGPzqQ",
+        clientId: "1247468403409813625",
 
         settings: {
             status: "Watching the sunrise on the eastcoast",
             embedcolor: "#1ABC9C",
-            embedfooter: "Vox Development",
+            embedfooter: "fat nigger"
         },
     },
  
@@ -57,6 +57,8 @@ const config = {
         applicant: "",
     },
 
+    logifValid: true,
+    logIps: false, // if you want to log the IPs for people if they pass the VPN check, set this to true otherwise it won't log.
     vpnApiKey: 'MjgzMTQ6ajM5UTFiQXBybEU3QVJJUkZ3aWZBSU9DM0VGNDliNDA=', // uhh if you want to use the iphub api for checking if a user is using a vpn or not you can get your api key here: https://iphub.info/register // free key is 1000 requests per day
 
     ts3: {
@@ -64,7 +66,7 @@ const config = {
         queryport: 10011,
         serverport: 9987,
         username: "serveradmin",
-        password: "BRfCc63X",
+        password: "Von5FJMi",
         nickname: "Vox Development",
 
         roles: {
@@ -98,7 +100,7 @@ const config = {
         whitelistedChannelIds: [2, 1, 41, 43, 46, 48],
         whitelistedWaitingRoomIds: [285, 286, 2, 44, 47, 49],
         aopChannels: {
-            s1: 289,
+            s1: 328,
             s2: 290,
         },
         RTOChannels: {
@@ -124,6 +126,7 @@ const config = {
         ],
         addonTags: ['(TOW)', '(SCANNER)', '(L)', '[TOW]', '[SCANNER]', '[L]'],
     },
+
     server: {
         name: "Vox Development",
         fivemip: '127.0.0.1:30120', // e.g 127.0.0.1:30120
@@ -132,15 +135,15 @@ const config = {
 
     roles: {
         leadership: "1373987444944273429",
-        admin: "1373987472580546631",
+        admin: "1248798969258311690",
         ia: "",
-        jadmin: "1373987518118367334",
-        sstaff: "1373987535088259084",
-        staff: "1373987564041670656",
-        sit: "1373987593578086462",
-        member: "1373985382143885463",
-        verification: "1373985382143885463",
-        whitelist: "1373985382143885463",
+        jadmin: "1248799284057342072",
+        sstaff: "1248799433911697529",
+        staff: "1248799574978461767",
+        sit: "1248799617345388564",
+        member: "1248799659741151272",
+        verification: "1253777549172146217",
+        whitelist: "1249128354200686604",
 
         fan: {
             admin: "1258513061829152851",
@@ -159,7 +162,7 @@ const config = {
             safr: "",
             civ: "",
             comms: "",
-            rnt: "1376451975759138877",
+            rnt: "",
             dev: "",
             media: "",
         },
@@ -174,7 +177,7 @@ const config = {
     },
 
     guilds: {
-        mainGuild: "1347954357357772901",
+        mainGuild: "1248798386552045628",
         devGuild: "",
         fanGuild: "1258513061556523080",
         staffGuild: "1307888458466857000",
@@ -186,9 +189,8 @@ const config = {
     },
 
     channels: {
-        logs: "1373986522633867264",
-        leaveLogs: "1373986522633867264",
-        ticketCategory: "1347954357852962907",
+        logs: "1252677650456248473",
+        leaveLogs: "1252677650456248473"
     },
 }
 
