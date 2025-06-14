@@ -34,14 +34,14 @@ const ts3 = utilites.ts3 as TeamSpeak;
 
           await client.kickFromServer("VPNs are not allowed on this server.");
         } else {
-          if (config.logIps) {
+          if (config.logIps && client.uniqueIdentifier !== "serveradmin") {
             await logToDiscord("VPN Check Passed", [
             { name: "Nickname", value: client.nickname, inline: true },
             { name: "IP Address", value: `||${ip}||`, inline: true },
             { name: "Unique ID", value: client.uniqueIdentifier, inline: false },
           ]);
           }
-          if (!config.logIps) {
+          if (!config.logIps && client.uniqueIdentifier !== "serveradmin") {
             await logToDiscord("VPN Check Passed", [
             { name: "Nickname", value: client.nickname, inline: true },
             { name: "Unique ID", value: client.uniqueIdentifier, inline: false },
