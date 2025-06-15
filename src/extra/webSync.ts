@@ -59,7 +59,6 @@ module.exports = {
                                                 if (err) {
                                                     console.error(err);
                                                 }
-                                                return newMember.send(`I have changed Web ID \`${webId}\`'s primary web role to role ID: \`${webRole}\``);
                                             });
                                     });
                                 } else {

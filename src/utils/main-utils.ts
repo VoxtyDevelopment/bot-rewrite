@@ -77,6 +77,18 @@ export async function banWebsiteUser(webid: string) {
     })
 }
 
+export async function unbanWebsiteUser(webid: string) {
+    post(`https://${invisiondomain}/api/core/members/${webid}/warnings?moderator=1&unsuspend=1&points=-100&key=${config.invision.api}`) // unbans the user from the website
+        .set('User-Agent', 'ECRP_Bot/2.0')
+        .end((err, res) => {
+            if (err) {
+                console.log("Failed to unban user:", err);
+            } else {
+                console.log("User successfully unbanned.");
+            }
+        });
+}
+
 export function cleanURL(input: string) {
     let result = input;
 

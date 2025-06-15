@@ -1,4 +1,5 @@
 import { SlashCommandBuilder, EmbedBuilder, ColorResolvable, MessageFlags } from "discord.js";
+import { unbanWebsiteUser } from "../../utils/main-utils";
 import config from "../../config";
 import utilites from "../../utils/main-utils";
 const con = utilites.con;
@@ -50,7 +51,7 @@ module.exports = {
             const usercache = rows [0];
             try {
                 const banList = await ts3.execute('banlist') as Array<{ banid: string, uid?: string }>;
-
+                await unbanWebsiteUser(usercache.webId);
                 const userBan = banList.find(ban => ban.uid === usercache.ts3);
             
                 if (!userBan) {
