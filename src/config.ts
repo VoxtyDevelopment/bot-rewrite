@@ -3,13 +3,13 @@ const config = {
     licensekey: "mb3tpihl-meegkh5l",
 
     bot: {
-        token: "MTI0NzQ2ODQwMzQwOTgxMzYyNQ.GbbfTy.s2200PvHgGSfQ5bQGXOmllsZ8yg0etqaSGPzqQ",
+        token: "MTM1ODU3OTI3NDEzMDUyMjE2Ng.Gr6Mc5.nccXFAdUJ3SmQ8owtaWTyJ2K4RqSoEKpPDd1Pw",
         clientId: "1247468403409813625",
 
         settings: {
             status: "Watching the sunrise on the eastcoast",
             embedcolor: "#1ABC9C",
-            embedfooter: "fat nigger"
+            embedfooter: "iloveyou",
         },
     },
  
@@ -19,6 +19,10 @@ const config = {
         password: "",
         database: "botv2",
     },
+
+    OwnerUserIDs: [
+        "123456789012345678",
+    ], 
 
     departmentDiscords: {
         "Los Santos Police Department": {

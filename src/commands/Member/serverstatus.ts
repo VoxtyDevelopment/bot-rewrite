@@ -1,6 +1,10 @@
 import { SlashCommandBuilder, EmbedBuilder, MessageFlags, ColorResolvable } from 'discord.js';
 import { get } from 'superagent';
 import config from '../../config';
+import utilities from '../../utils/main-utils';
+import { RowDataPacket } from 'mysql2';
+
+const con = utilities.con;
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -34,43 +38,53 @@ module.exports = {
             const data = JSON.parse(res.text);
             const players = data.length;
 
-            const statusEmbed = new EmbedBuilder()
-                .setTitle(serverName)
-                .setColor(config.bot.settings.embedcolor as ColorResolvable)
-                .setDescription(`This is the current server status for \`${serverName}\`\n\n**Player Count**: \`${players}/64\``)
-                .setImage(config.server.logo)
-                .setTimestamp()
-                .setFooter({ text: config.bot.settings.embedfooter, iconURL: config.server.logo });
+            con.query("SELECT * FROM aop WHERE serverName = ?", [`s${server}`], async (err, result: RowDataPacket[]) => {
+                let aopText = 'Unknown';
+                let setBy = 'Unknown';
 
-            if (players === 0) {
-                statusEmbed.addFields({
-                    name: "There Are No Players",
-                    value: `There are currently no players on \`${serverName}\`.`
-                });
-            } else {
-                data.forEach(player => {
+                if (!err && result && result.length > 0) {
+                    aopText = result[0].aop || 'Not Set';
+                    setBy = result[0].setBy || 'Unknown';
+                }
+
+                const statusEmbed = new EmbedBuilder()
+                    .setTitle(serverName)
+                    .setColor(config.bot.settings.embedcolor as ColorResolvable)
+                    .setDescription(`**Server:** \`${serverName}\`\n**Players:** \`${players}/64\`\n**AOP:** \`${aopText}\`\n**Set By:** \`${setBy}\``)
+                    .setImage(config.server.logo)
+                    .setTimestamp()
+                    .setFooter({ text: config.bot.settings.embedfooter, iconURL: config.server.logo });
+
+                if (players === 0) {
                     statusEmbed.addFields({
-                        name: `[${player.id}] ${player.name}`,
-                        value: `**Player Ping**: ${player.ping}`,
-                        inline: true
+                        name: "There Are No Players",
+                        value: `There are currently no players on \`${serverName}\`.`
                     });
-                });
-            }
+                } else {
+                    data.forEach(player => {
+                        statusEmbed.addFields({
+                            name: `[${player.id}] ${player.name}`,
+                            value: `**Player Ping**: ${player.ping}`,
+                            inline: true
+                        });
+                    });
+                }
 
-            const logEmbed = new EmbedBuilder()
-                .setTitle("Status Command Used")
-                .setColor(config.bot.settings.embedcolor as ColorResolvable)
-                .setImage(config.server.logo)
-                .setTimestamp()
-                .setFooter({ text: config.bot.settings.embedfooter, iconURL: config.server.logo })
-                .addFields(
-                    { name: 'Used by', value: `<@${interaction.user.id}>`, inline: true },
-                    { name: 'Channel', value: `<#${interaction.channel.id}>`, inline: true }
-                );
+                const logEmbed = new EmbedBuilder()
+                    .setTitle("Status Command Used")
+                    .setColor(config.bot.settings.embedcolor as ColorResolvable)
+                    .setImage(config.server.logo)
+                    .setTimestamp()
+                    .setFooter({ text: config.bot.settings.embedfooter, iconURL: config.server.logo })
+                    .addFields(
+                        { name: 'Used by', value: `<@${interaction.user.id}>`, inline: true },
+                        { name: 'Channel', value: `<#${interaction.channel.id}>`, inline: true }
+                    );
 
-            if (logChannel) await logChannel.send({ embeds: [logEmbed] });
+                if (logChannel) await logChannel.send({ embeds: [logEmbed] });
 
-            return interaction.reply({ embeds: [statusEmbed] });
+                return interaction.reply({ embeds: [statusEmbed] });
+            });
 
         } catch (err) {
             console.error("Error fetching FiveM player data:", err.message);
