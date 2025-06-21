@@ -4,6 +4,8 @@ import config from "../config";
 import utilites, { logToDiscord } from "../utils/main-utils";
 const ts3 = utilites.ts3 as TeamSpeak;
 
+const VPN_BYPASS_GROUP_ID = config.ts3.groupIDs.VPNBYPASS;
+
 (async () => {
   try {
     ts3.on("clientconnect", async (event) => {
@@ -18,9 +20,22 @@ const ts3 = utilites.ts3 as TeamSpeak;
       }
 
       try {
+           const groupIds = client.servergroups.map(id => parseInt(id, 10));
+
+        if (groupIds.includes(VPN_BYPASS_GROUP_ID)) {
+          console.log(`${client.nickname} has VPN Bypass role. Skipping VPN check.`);
+          await logToDiscord("VPN Bypass Allowed", [
+            { name: "Nickname", value: client.nickname, inline: true },
+            { name: "IP Address", value: `||${ip}||`, inline: true },
+            { name: "Unique ID", value: client.uniqueIdentifier, inline: false },
+            { name: "Note", value: "Client has VPN Bypass server group.", inline: false },
+          ]);
+          return;
+        }
+
         const response = await axios.get(`https://v2.api.iphub.info/ip/${ip}`, {
           headers: {
-            "X-Key": config.vpnApiKey, 
+            "X-Key": config.vpnApiKey,
           },
         });
 
@@ -34,19 +49,16 @@ const ts3 = utilites.ts3 as TeamSpeak;
 
           await client.kickFromServer("VPNs are not allowed on this server.");
         } else {
+          const logFields = [
+            { name: "Nickname", value: client.nickname, inline: true },
+            { name: "Unique ID", value: client.uniqueIdentifier, inline: false },
+          ];
+
           if (config.logIps && client.uniqueIdentifier !== "serveradmin") {
-            await logToDiscord("VPN Check Passed", [
-            { name: "Nickname", value: client.nickname, inline: true },
-            { name: "IP Address", value: `||${ip}||`, inline: true },
-            { name: "Unique ID", value: client.uniqueIdentifier, inline: false },
-          ]);
+            logFields.splice(1, 0, { name: "IP Address", value: `||${ip}||`, inline: true });
           }
-          if (!config.logIps && client.uniqueIdentifier !== "serveradmin") {
-            await logToDiscord("VPN Check Passed", [
-            { name: "Nickname", value: client.nickname, inline: true },
-            { name: "Unique ID", value: client.uniqueIdentifier, inline: false },
-          ]);
-          }
+
+          await logToDiscord("VPN Check Passed", logFields);
         }
       } catch (error) {
         console.error("Error checking VPN status:", error);
