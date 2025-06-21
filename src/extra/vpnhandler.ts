@@ -28,7 +28,6 @@ const VPN_BYPASS_GROUP_ID = config.ts3.groupIDs.VPNBYPASS;
           if (!isServerAdmin) {
             await logToDiscord("VPN Bypass Allowed", [
               { name: "Nickname", value: client.nickname, inline: true },
-              { name: "IP Address", value: `||${ip}||`, inline: true },
               { name: "Unique ID", value: client.uniqueIdentifier, inline: false },
               { name: "Note", value: "Client has VPN Bypass server group.", inline: false },
             ]);
