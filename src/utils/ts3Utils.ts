@@ -7,6 +7,7 @@ import config from '../config';
 let tsClient: TeamSpeak;
 
 export async function startNewTs3Bot(): Promise<void> {
+    if (!config.features.teamspeak) return;
     Logger.warn('TS3 | Starting');
     tsClient = await TeamSpeak.connect({
         host: config.ts3.host,
@@ -124,6 +125,7 @@ export async function setAOP(
     setBy?: string,
     server?: 's1' | 's2'
 ): Promise<void> {
+        if (!config.features.teamspeak) return;
     if (config.ts3.aopChannels) {
         if (aop.length > 26) return Promise.reject('TOO_LONG_AOP');
         const serverSelection = config.ts3.aopChannels[server ?? 's1'];

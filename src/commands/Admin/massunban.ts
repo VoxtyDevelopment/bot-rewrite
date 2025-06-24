@@ -50,6 +50,8 @@ module.exports = {
 
             const usercache = rows [0];
             try {
+                if (!config.features.invision) return;
+                if (!config.features.teamspeak) return;
                 const banList = await ts3.execute('banlist') as Array<{ banid: string, uid?: string }>;
                 await unbanWebsiteUser(usercache.webId);
                 const userBan = banList.find(ban => ban.uid === usercache.ts3);

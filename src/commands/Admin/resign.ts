@@ -136,6 +136,7 @@ module.exports = {
             try { 
                 if (usercache.webId) {
                     try {
+                        if (!config.features.invision) return;
                         await banWebsiteUser(usercache.webId);
                         await changeWebsiteRole(usercache.webId, config.invision.applicant);
                     } catch (error) {
@@ -144,6 +145,7 @@ module.exports = {
                 }
 
                 try {
+                    if (!config.features.teamspeak) return;
                     await resetUser(usercache.ts3);
                     await ts3.execute('banadd', {
                         uid: usercache.ts3,

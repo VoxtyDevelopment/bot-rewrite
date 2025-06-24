@@ -2,8 +2,13 @@ const config = {
 
     licensekey: "mb3tpihl-meegkh5l",
 
+    features: {
+        invision: true,
+        teamspeak: true
+    },
+
     bot: {
-        token: "MTM1ODU3OTI3NDEzMDUyMjE2Ng.Gr6Mc5.nccXFAdUJ3SmQ8owtaWTyJ2K4RqSoEKpPDd1Pw",
+        token: "MTI0NzQ2ODQwMzQwOTgxMzYyNQ.GbbfTy.s2200PvHgGSfQ5bQGXOmllsZ8yg0etqaSGPzqQ",
         clientId: "1247468403409813625",
 
         settings: {
@@ -73,34 +78,26 @@ const config = {
         password: "Von5FJMi",
         nickname: "Vox Development",
 
-        roles: {
-            admin: "267",
-            jadmin: "267",
-            sstaff: "267",
-            staff: "267",
-            sit: "267",
-            member: "468"
-        },
-        groupIDs: {
-            VPNBYPASS: 638,
-            DND: 330,
-            QUEUEBYPASS: 636,
-            COOKIE: 439,
-            SEESTAFF: 239,
-            SEEADMIN: 287,
-            SEEHA: 240,
-            SEEIA: 238,
-            MEMBER: 128,
-            RSTAFF: 438,
-            RADMIN: 148,
-            SIT: 19,
-            STAFF: 18,
-            SRSTAFF: 17,    
-            JRADMIN: 16,
-            ADMIN: 15,
-            SRADMIN: 152,
-            HEADADMIN: 153,
-        },
+groupIDs: {
+    VPNBYPASS: 638,
+    DND: 330,
+    QUEUEBYPASS: 636,
+    COOKIE: 439,
+    SEESTAFF: 239,
+    SEEADMIN: 287,
+    SEEHA: 240,
+    SEEIA: 238,
+    MEMBER: "680",
+    RSTAFF: 438,
+    RADMIN: 148,
+    SIT: "19",
+    STAFF: "18",
+    SRSTAFF: "17",
+    JRADMIN: "16",
+    ADMIN: "15",
+    SRADMIN: 152,
+    HEADADMIN: 153,
+},
         whitelistedChannelIds: [2, 1, 41, 43, 46, 48],
         whitelistedWaitingRoomIds: [285, 286, 2, 44, 47, 49],
         aopChannels: {
@@ -184,7 +181,7 @@ const config = {
         mainGuild: "1248798386552045628",
         devGuild: "",
         fanGuild: "1258513061556523080",
-        staffGuild: "1307888458466857000",
+        staffGuild: "",
     },
 
     mute: {

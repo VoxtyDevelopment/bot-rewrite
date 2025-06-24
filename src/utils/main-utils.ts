@@ -58,6 +58,7 @@ export async function logToDiscord(title: string, fields: { name: string, value:
 }
 
 export async function changeWebsiteRole(webid: string, roleid: string) {
+    if (!config.features.invision) return;
      post(`https://${invisiondomain}/api/core/members/${webid}?group=${roleid}&key=${config.invision.api}`) // sets their group ID to the default (applicant role for most)
         .set('User-Agent', 'ECRP_Bot/2.0')
         .end((err, res) => {
@@ -68,6 +69,7 @@ export async function changeWebsiteRole(webid: string, roleid: string) {
 };
 
 export async function banWebsiteUser(webid: string) {
+    if (!config.features.invision) return;
     post(`https://${invisiondomain}/api/core/members/${webid}/warnings?moderator=1&suspendPermanent&points=100&key=${config.invision.api}`) // bans the user from the website
         .set('User-Agent', 'ECRP_Bot/2.0')
         .end((err, res) => {
@@ -78,6 +80,7 @@ export async function banWebsiteUser(webid: string) {
 }
 
 export async function unbanWebsiteUser(webid: string) {
+    if (!config.features.invision) return;
     post(`https://${invisiondomain}/api/core/members/${webid}/warnings?moderator=1&unsuspend=1&points=-100&key=${config.invision.api}`) // unbans the user from the website
         .set('User-Agent', 'ECRP_Bot/2.0')
         .end((err, res) => {
