@@ -1,5 +1,6 @@
 import { SlashCommandBuilder, EmbedBuilder, ColorResolvable, MessageFlags } from 'discord.js';
 import config from '../../config';
+import { hasPermissionLevel } from '../../utils/permissionUtils';
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -24,8 +25,7 @@ module.exports = {
         const duration = interaction.options.getString('duration');
         const uses = interaction.options.getString('uses');
         const logChannel = client.channels.cache.get(config.channels.logs);
-        const reqRole = interaction.guild.roles.cache.find(r => r.id === config.roles.sit);
-        const permission = reqRole.position <= interaction.member.roles.highest.position;
+        const permission = await hasPermissionLevel(interaction.user.id, 3);
 
         if (!permission) {
             return interaction.reply({ content: 'You do not have permission to use this command.', flags: MessageFlags.Ephemeral });

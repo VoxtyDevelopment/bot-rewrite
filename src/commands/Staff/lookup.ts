@@ -2,6 +2,7 @@ import { SlashCommandBuilder, EmbedBuilder, MessageFlags, ColorResolvable } from
 import config from '../../config';
 import mysql from 'mysql2/promise';
 import { cleanURL } from '../../utils/main-utils';
+import { hasPermissionLevel } from '../../utils/permissionUtils';
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -13,16 +14,13 @@ module.exports = {
                 .setRequired(true)
         ),
 
-    async execute(interaction, client) {
-        const sitRole = interaction.guild.roles.cache.get(config.roles.sit);
-        const hasPermission = sitRole && sitRole.position <= interaction.member.roles.highest.position;
+    async execute(interaction) {
         const invisiondomain = cleanURL(config.invision.domain);
 
-        if (!hasPermission) {
-            return interaction.reply({
-                content: "You do not have permission to execute this command.",
-                flags: MessageFlags.Ephemeral
-            });
+        const permission = await hasPermissionLevel(interaction.user.id, 3);
+
+        if (!permission) {
+            return interaction.reply({ content: 'You do not have permission to use this command.', flags: MessageFlags.Ephemeral });
         }
 
         const query = interaction.options.getString('query');

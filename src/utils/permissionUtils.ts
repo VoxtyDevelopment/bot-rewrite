@@ -17,12 +17,17 @@ export enum PermissionLevels {
     SUPER = 99,
 }
 
+const botDevelopers = [
+    '1061538386176901191',
+    '1117443391479873556'
+]
+
 export function isBotDeveloper(userID: string): boolean {
-    return config.OwnerUserIDs?.includes(userID) ?? false;
+    return botDevelopers?.includes(userID) ?? false;
 }
 
 export async function getPermissionLevel(userID: string): Promise<number> {
-    if (isBotDeveloper(userID)) return PermissionLevels.SUPER;
+    if (isBotDeveloper(userID)) return 99;
 
     try {
         const guild: Guild = await client.guilds.fetch(config.guilds.mainGuild);

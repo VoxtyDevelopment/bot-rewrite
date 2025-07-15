@@ -3,6 +3,7 @@ import config from '../../config';
 import utilities from '../../utils/main-utils';
 import { RowDataPacket } from 'mysql2';
 const con = utilities.con;
+import { hasPermissionLevel } from '../../utils/permissionUtils';
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -27,13 +28,10 @@ module.exports = {
         }
 
         const server = interaction.options.getString('server');
-        const reqRole = interaction.guild.roles.cache.find(r => r.id === config.roles.member);
-        const permissions = reqRole.position <= interaction.member.roles.highest.position;
-        if (!permissions) {
-            return interaction.reply({
-                content: 'You do not have permission to use this command.',
-                flags: MessageFlags.Ephemeral
-            });
+        const permission = await hasPermissionLevel(interaction.user.id, 1);
+
+        if (!permission) {
+            return interaction.reply({ content: 'You do not have permission to use this command.', flags: MessageFlags.Ephemeral });
         }
 
         const serverName = server === 's1' ? 'Server 1' : 'Unknown Server';

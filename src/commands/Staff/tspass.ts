@@ -2,6 +2,7 @@ import { SlashCommandBuilder, EmbedBuilder, MessageFlags, ColorResolvable } from
 import config from '../../config';
 import utilites from '../../utils/main-utils';
 const ts3 = utilites.ts3;
+import { hasPermissionLevel } from '../../utils/permissionUtils';
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -19,8 +20,8 @@ module.exports = {
     ),
 
     async execute(interaction, client) {
-        const reqRole = interaction.guild.roles.cache.find(r => r.id === config.roles.sit);
-        const permission = reqRole.position <= interaction.member.roles.highest.position;
+        const permission = await hasPermissionLevel(interaction.user.id, 3);
+
         if (!permission) {
             return interaction.reply({ content: 'You do not have permission to use this command.', flags: MessageFlags.Ephemeral });
         }

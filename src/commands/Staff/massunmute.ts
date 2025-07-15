@@ -2,6 +2,7 @@ import { SlashCommandBuilder, EmbedBuilder, ColorResolvable, GuildMember, Messag
 import utilities from '../../utils/main-utils';
 import config from '../../config';
 const { con } = utilities;
+import { hasPermissionLevel } from '../../utils/permissionUtils';
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -22,10 +23,10 @@ module.exports = {
             return interaction.reply({ content: "You cannot run this command in the muted channel.", flags: MessageFlags.Ephemeral });
         }
 
-        const reqRole = interaction.guild.roles.cache.get(config.roles.staff);
-        const permission = reqRole?.position <= interaction.member.roles.highest.position;
+        const permission = await hasPermissionLevel(interaction.user.id, 3);
+
         if (!permission) {
-            return interaction.reply({ content: "You do not have permission to execute this command", flags: MessageFlags.Ephemeral });
+            return interaction.reply({ content: 'You do not have permission to use this command.', flags: MessageFlags.Ephemeral });
         }
 
         const user = interaction.options.getMember('user') as GuildMember;

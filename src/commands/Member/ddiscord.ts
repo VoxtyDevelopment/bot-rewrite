@@ -1,5 +1,6 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder, ColorResolvable, MessageFlags } from 'discord.js';
 import config from '../../config';
+import { hasPermissionLevel } from '../../utils/permissionUtils';
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -7,6 +8,11 @@ module.exports = {
     .setDescription('Displays a list of department discords.'),
 
   async execute(interaction: ChatInputCommandInteraction) {
+      const permission = await hasPermissionLevel(interaction.user.id, 1);
+
+      if (!permission) {
+        return interaction.reply({ content: 'You do not have permission to use this command.', flags: MessageFlags.Ephemeral });
+      }
     const embed = new EmbedBuilder()
       .setTitle('Department Discords')
       .setColor(config.bot.settings.embedcolor as ColorResolvable)

@@ -5,6 +5,7 @@ import { changeWebsiteRole } from '../../utils/main-utils';
 const con = utilities.con;
 const ts3 = utilities.ts3;
 import { resetUser } from '../../utils/ts3Utils';
+import { hasPermissionLevel } from '../../utils/permissionUtils';
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -28,13 +29,13 @@ module.exports = {
         const user = interaction.options.getUser('user');
         const reason = interaction.options.getString('reason');
         const logChannel = client.channels.cache.get(config.channels.logs);
-        const reqRole = interaction.guild.roles.cache.find(r => r.id === config.roles.jadmin);
-        const permissions = reqRole.position <= interaction.member.roles.highest.position;
-        const userId = user.id;
-        const embedcolor = config.bot.settings.embedcolor;
-        
-        if (!permissions)
+        const permission = await hasPermissionLevel(interaction.user.id, 6);
+
+        if (!permission) {
             return interaction.reply({ content: 'You do not have permission to use this command.', flags: MessageFlags.Ephemeral });
+        }
+        const userId = user.id;
+        const embedcolor = config.bot.settings.embedcolor;       
 
         const log = new EmbedBuilder()
             .setTitle('User Mass-Kicked')

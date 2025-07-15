@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, EmbedBuilder, MessageFlags, ColorResolvable } from 'discord.js';
 import config from '../../config';
 import mysql from 'mysql2/promise';
+import { hasPermissionLevel } from '../../utils/permissionUtils';
 
 const departmentRoles = {
     'Police Department': config.roles.dept.lspd,
@@ -42,11 +43,10 @@ module.exports = {
         ),
 
 async execute(interaction, client) {
-    const reqRole = interaction.guild.roles.cache.find(r => r.id === config.roles.sstaff);
-    const permission = reqRole.position <= interaction.member.roles.highest.position;
+    const permission = await hasPermissionLevel(interaction.user.id, 5);
 
     if (!permission) {
-        return interaction.reply({ content: "You do not have permission to execute this command", flags: MessageFlags.Ephemeral });
+        return interaction.reply({ content: 'You do not have permission to use this command.', flags: MessageFlags.Ephemeral });
     }
 
     const user = interaction.options.getUser('user');

@@ -4,6 +4,7 @@ import config from "../../config";
 import utilites from "../../utils/main-utils";
 const con = utilites.con;
 const ts3 = utilites.ts3;
+import { hasPermissionLevel } from "../../utils/permissionUtils";
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -21,12 +22,12 @@ module.exports = {
 
         const user = interaction.options.getUser('user');
         const logChannel = client.channels.cache.get(config.channels.logs);
-        const reqRole = interaction.guild.roles.cache.find(r => r.id === config.roles.jadmin);
-        const permissions = reqRole.position <= interaction.member.roles.highest.position;
         const embedcolor = (config.bot.settings.embedcolor)
-        if (!permissions)
-            return interaction.reply({ content: 'You do not have permission to use this command.', MessageFlags: MessageFlags.Ephemeral });
+        const permission = await hasPermissionLevel(interaction.user.id, 6);
 
+        if (!permission) {
+            return interaction.reply({ content: 'You do not have permission to use this command.', flags: MessageFlags.Ephemeral });
+        }
 
         await client.guilds.fetch();
         

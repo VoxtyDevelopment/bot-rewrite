@@ -3,6 +3,7 @@ import { get } from 'superagent';
 import config from '../../config';
 import utilities from '../../utils/main-utils';
 import { RowDataPacket } from 'mysql2';
+import { hasPermissionLevel } from '../../utils/permissionUtils';
 
 const con = utilities.con;
 
@@ -21,11 +22,10 @@ module.exports = {
 
     async execute(interaction, client) {
         const server = interaction.options.getString('server');
-        const reqRole = interaction.guild.roles.cache.get(config.roles.member);
-        const userHighestRole = interaction.member.roles.highest;
+        const permission = await hasPermissionLevel(interaction.user.id, 1);
 
-        if (!reqRole || userHighestRole.position < reqRole.position) {
-            return interaction.reply({ content: "You don't have permission to use this command.", flags: MessageFlags.Ephemeral });
+        if (!permission) {
+            return interaction.reply({ content: 'You do not have permission to use this command.', flags: MessageFlags.Ephemeral });
         }
 
         const logChannel = client.channels.cache.get(config.channels.logs);

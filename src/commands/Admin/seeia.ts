@@ -2,6 +2,7 @@ import { SlashCommandBuilder, EmbedBuilder, ChannelType, PermissionFlagsBits, Me
 import utilites from '../../utils/main-utils'
 import config from '../../config'
 const { con } = utilites
+import { hasPermissionLevel } from '../../utils/permissionUtils'
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -24,11 +25,10 @@ module.exports = {
         if (interaction.guildId !== config.guilds.mainGuild)
             return interaction.editReply({ content: 'This command is only available in the main guild.', flags: MessageFlags.Ephemeral });
 
-        const reqRole = interaction.guild.roles.cache.find(r => r.id === config.roles.ia);
-        const permission = reqRole.position <= interaction.member.roles.highest.position;
+        const permission = await hasPermissionLevel(interaction.user.id, 8);
 
         if (!permission) {
-            return interaction.editReply({ content: "You do not have permission to execute this command", flags: MessageFlags.Ephemeral })
+            return interaction.reply({ content: 'You do not have permission to use this command.', flags: MessageFlags.Ephemeral });
         }
 
         const user = interaction.options.getUser('user');

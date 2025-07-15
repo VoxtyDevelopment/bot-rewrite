@@ -3,6 +3,7 @@ import config from '../../config';
 import { setAOP } from '../../utils/ts3Utils';
 import utilites from '../../utils/main-utils';
 const con = utilites.con;
+import { hasPermissionLevel } from '../../utils/permissionUtils';
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -35,21 +36,10 @@ module.exports = {
         await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
         const member = interaction.member as GuildMember;
-        const reqRole = interaction.guild.roles.cache.find(r => r.id === config.roles.sit);
+        const permission = await hasPermissionLevel(interaction.user.id, 3);
 
-        if (!reqRole) {
-            return interaction.followUp({
-                content: 'Required role not found in this server.',
-                flags: MessageFlags.Ephemeral
-            });
-        }
-
-        const hasPermission = reqRole.position <= member.roles.highest.position;
-        if (!hasPermission) {
-            return interaction.followUp({
-                content: 'You do not have permission to use this command.',
-                flags: MessageFlags.Ephemeral
-            });
+        if (!permission) {
+            return interaction.reply({ content: 'You do not have permission to use this command.', flags: MessageFlags.Ephemeral });
         }
 
         const aop = interaction.options.getString('aop', true);

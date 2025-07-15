@@ -5,6 +5,7 @@ import { changeWebsiteRole, banWebsiteUser } from '../../utils/main-utils';
 const con = utilities.con;
 const ts3 = utilities.ts3;
 import { resetUser } from '../../utils/ts3Utils';
+import { hasPermissionLevel } from '../../utils/permissionUtils';
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -53,21 +54,10 @@ module.exports = {
         }
 
         const member = interaction.member as GuildMember;
-        const reqRole = interaction.guild.roles.cache.find(r => r.id === config.roles.jadmin);
+        const permission = await hasPermissionLevel(interaction.user.id, 6);
 
-        if (!reqRole) {
-            return interaction.followUp({
-                content: 'Required role not found in this server.',
-                MessageFlags: MessageFlags.Ephemeral
-            });
-        }
-
-        const permissions = reqRole.position <= member.roles.highest.position;
-        if (!permissions) {
-            return interaction.followUp({
-                content: 'You do not have permission to use this command.',
-                MessageFlags: MessageFlags.Ephemeral
-            });
+        if (!permission) {
+            return interaction.reply({ content: 'You do not have permission to use this command.', flags: MessageFlags.Ephemeral });
         }
 
         const userId = user.id;

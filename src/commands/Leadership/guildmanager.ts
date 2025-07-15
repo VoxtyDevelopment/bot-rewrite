@@ -1,5 +1,6 @@
 import { SlashCommandBuilder, MessageFlags, EmbedBuilder, ColorResolvable, ActionRowBuilder, StringSelectMenuBuilder, ComponentType } from 'discord.js';
 import config from '../../config';
+import { hasPermissionLevel } from '../../utils/permissionUtils';
 
 // made this because of the main issue with the old ecrp bot and people are lowkey kinda retarded and don't setup private bot invites and if the bot doesn't have permissions in a guild it breaks the whole thing
 
@@ -9,11 +10,12 @@ module.exports = {
     .setDescription('Displays all guilds the bot is in and allows leaving a selected one.'),
 
     async execute(interaction, client) {
-        const reqRole = interaction.guild.roles.cache.find(role => role.id === config.roles.leadership);
-        const permission = reqRole.position <= interaction.member.roles.highest.position;
-            if (!permission) {
-                return interaction.reply({ content: "You do not have the proper permissions to execute this command.", flags: MessageFlags.Ephemeral });
-            }
+        const permission = await hasPermissionLevel(interaction.user.id, 9);
+
+        if (!permission) {
+            return interaction.reply({ content: 'You do not have permission to use this command.', flags: MessageFlags.Ephemeral });
+        }
+
         const guilds = client.guilds.cache.map(guild => ({ label: guild.name.length > 100 ? guild.name.substring(0, 97) + "..." : guild.name, description: `ID: ${guild.id}`, value: guild.id }));
 
             const guildEmbed = new EmbedBuilder()

@@ -1,5 +1,6 @@
-import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, ColorResolvable } from 'discord.js';
+import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, ColorResolvable, MessageFlags } from 'discord.js';
 import config from '../../config';
+import { hasPermissionLevel } from '../../utils/permissionUtils';
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -23,6 +24,11 @@ module.exports = {
 				.setRequired(true)),
 
 	async execute(interaction: ChatInputCommandInteraction) {
+		const permission = await hasPermissionLevel(interaction.user.id, 1);
+		
+		if (!permission) {
+			return interaction.reply({ content: 'You do not have permission to use this command.', flags: MessageFlags.Ephemeral });
+		}
 		const type = interaction.options.getString('type', true);
 		const unixTime = interaction.options.getInteger('time', true);
 		const aop = interaction.options.getString('aop', true);

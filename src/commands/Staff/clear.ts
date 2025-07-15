@@ -1,5 +1,6 @@
 import { SlashCommandBuilder, MessageFlags, EmbedBuilder, ColorResolvable } from 'discord.js';
 import config from '../../config';
+import { hasPermissionLevel } from '../../utils/permissionUtils';
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -14,10 +15,10 @@ module.exports = {
         ),
 
     async execute(interaction, client) {
-        const reqRole = interaction.guild.roles.cache.find(r => r.id === config.roles.staff);
-        const permission = reqRole.position <= interaction.member.roles.highest.position;
+        const permission = await hasPermissionLevel(interaction.user.id, 4);
+
         if (!permission) {
-            return interaction.reply({ content: "You do not have the proper permissions to execute this command", flags: MessageFlags.Ephemeral });
+            return interaction.reply({ content: 'You do not have permission to use this command.', flags: MessageFlags.Ephemeral });
         }
 
         const amount = interaction.options.getInteger('amount');

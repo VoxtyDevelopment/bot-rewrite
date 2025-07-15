@@ -3,6 +3,8 @@ import { post } from 'superagent';
 import config from '../../config';
 import { cleanURL } from '../../utils/main-utils';
 import { Connection } from 'mysql2';
+import { hasPermissionLevel } from '../../utils/permissionUtils';
+
 // idek if this works i dont have a website to test it on
 module.exports = {
     data: new SlashCommandBuilder()
@@ -39,22 +41,10 @@ module.exports = {
             return interaction.reply({ content: "Log channel is not properly configured.", flags: MessageFlags.Ephemeral });
         }
 
-        const member = interaction.member as GuildMember;
-        const reqRole = interaction.guild.roles.cache.find(r => r.id === config.roles.jadmin);
+        const permission = await hasPermissionLevel(interaction.user.id, 6);
 
-        if (!reqRole) {
-            return interaction.followUp({
-                content: 'Required role not found in this server.',
-                flags: MessageFlags.Ephemeral
-            });
-        }
-
-        const permissions = reqRole.position <= member.roles.highest.position;
-        if (!permissions) {
-            return interaction.followUp({
-                content: 'You do not have permission to use this command.',
-                flags: MessageFlags.Ephemeral
-            });
+        if (!permission) {
+            return interaction.reply({ content: 'You do not have permission to use this command.', flags: MessageFlags.Ephemeral });
         }
 
         const log = new EmbedBuilder()

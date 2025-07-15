@@ -1,6 +1,6 @@
 const config = {
 
-    licensekey: "mb3tpihl-meegkh5l",
+    licensekey: "2b12fa5a-c165-41af-b60c-4849d9a90ddb",
 
     features: {
         invision: true,
