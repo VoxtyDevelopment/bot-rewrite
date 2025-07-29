@@ -24,7 +24,7 @@ module.exports = {
 
         async execute(interaction, client) {
             if (interaction.guildId !== config.guilds.mainGuild)
-                return interaction.reply({ content: 'This command is only available in the main guild.', flags: MessageFlags.Ephemeral });
+                return interaction.reply({ content: config.messages.onlymainGuild, flags: MessageFlags.Ephemeral });
 
             const user = interaction.options.getUser('user');
             const reason = interaction.options.getString('reason');
@@ -32,7 +32,7 @@ module.exports = {
             const permission = await hasPermissionLevel(interaction.user.id, 6);
 
             if (!permission) {
-                return interaction.reply({ content: 'You do not have permission to use this command.', flags: MessageFlags.Ephemeral });
+                return interaction.reply({ content: config.messages.noPermission, flags: MessageFlags.Ephemeral });
             }
             const userId = (user.id)
             const embedcolor = (config.bot.settings.embedcolor)

@@ -14,9 +14,9 @@ module.exports = {
             .setRequired(true)),
 
     async execute(interaction: any, client: any) {
-        if (interaction.guild.id !== config.guilds.mainGuild) {
-            return interaction.reply({ content: config.guilds.mainGuild, flags: MessageFlags.Ephemeral });
-        }
+        if (interaction.guildId !== config.guilds.mainGuild)
+            return interaction.reply({ content: config.messages.onlymainGuild, flags: MessageFlags.Ephemeral });
+
 
         const channelName = interaction.channel.name.toLowerCase();
         if (channelName.startsWith('ia-') || channelName.startsWith('muted-staff')) {

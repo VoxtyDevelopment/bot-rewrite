@@ -316,7 +316,7 @@ function handleGenericError(error: ResponseError): [] {
                 return [];
         }
     } else {
-        Logger.error('TS3 | ' + error);
+        Logger.error('TS3 | ');
         return [];
     }
 }

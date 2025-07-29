@@ -10,10 +10,13 @@ module.exports = {
     .setDescription('Displays all guilds the bot is in and allows leaving a selected one.'),
 
     async execute(interaction, client) {
+        if (interaction.guildId !== config.guilds.mainGuild)
+            return interaction.reply({ content: config.messages.onlymainGuild, flags: MessageFlags.Ephemeral });
+
         const permission = await hasPermissionLevel(interaction.user.id, 9);
 
         if (!permission) {
-            return interaction.reply({ content: 'You do not have permission to use this command.', flags: MessageFlags.Ephemeral });
+            return interaction.reply({ content: config.messages.noPermission, flags: MessageFlags.Ephemeral });
         }
 
         const guilds = client.guilds.cache.map(guild => ({ label: guild.name.length > 100 ? guild.name.substring(0, 97) + "..." : guild.name, description: `ID: ${guild.id}`, value: guild.id }));

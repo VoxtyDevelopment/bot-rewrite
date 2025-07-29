@@ -5,7 +5,7 @@ import axios from 'axios';
 import { post } from 'superagent';
 import https from 'https';
 import { EmbedBuilder, Client, ColorResolvable } from 'discord.js';
-import { client } from "../index";
+import { client, Logger } from "../index";
 
 const headers = { 'User-Agent': 'ECRP_Bot/2.0' };
 const invisiondomain = cleanURL(config.invision.domain);
@@ -23,6 +23,11 @@ const con = mysql.createPool({
     port: 3306,
     multipleStatements: true
 });
+
+con.on('error', (err) => {
+    Logger.error(`MySQL Connection Error Check to make sure the database is online`);
+});
+
 
 const ts3 = new TeamSpeak({
     host: config.ts3.host,

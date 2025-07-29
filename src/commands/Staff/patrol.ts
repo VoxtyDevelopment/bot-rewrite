@@ -25,9 +25,11 @@ module.exports = {
 
 	async execute(interaction: ChatInputCommandInteraction) {
 		const permission = await hasPermissionLevel(interaction.user.id, 1);
-		
+		if (interaction.guildId !== config.guilds.mainGuild)
+			return interaction.reply({ content: config.messages.onlymainGuild, flags: MessageFlags.Ephemeral });
+
 		if (!permission) {
-			return interaction.reply({ content: 'You do not have permission to use this command.', flags: MessageFlags.Ephemeral });
+			return interaction.reply({ content: config.messages.noPermission, flags: MessageFlags.Ephemeral });
 		}
 		const type = interaction.options.getString('type', true);
 		const unixTime = interaction.options.getInteger('time', true);

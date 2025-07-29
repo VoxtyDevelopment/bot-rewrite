@@ -8,10 +8,12 @@ module.exports = {
     .setDescription('Displays a list of department discords.'),
 
   async execute(interaction: ChatInputCommandInteraction) {
-      const permission = await hasPermissionLevel(interaction.user.id, 1);
+      if (interaction.guildId !== config.guilds.mainGuild)
+        return interaction.reply({ content: config.messages.onlymainGuild, flags: MessageFlags.Ephemeral });
 
+      const permission = await hasPermissionLevel(interaction.user.id, 1);
       if (!permission) {
-        return interaction.reply({ content: 'You do not have permission to use this command.', flags: MessageFlags.Ephemeral });
+        return interaction.reply({ content: config.messages.noPermission, flags: MessageFlags.Ephemeral });
       }
     const embed = new EmbedBuilder()
       .setTitle('Department Discords')

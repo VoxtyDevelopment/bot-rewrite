@@ -21,11 +21,13 @@ module.exports = {
         ),
 
     async execute(interaction, client) {
+        if (interaction.guildId !== config.guilds.mainGuild)
+            return interaction.reply({ content: config.messages.onlymainGuild, flags: MessageFlags.Ephemeral });
+
         const server = interaction.options.getString('server');
         const permission = await hasPermissionLevel(interaction.user.id, 1);
-
         if (!permission) {
-            return interaction.reply({ content: 'You do not have permission to use this command.', flags: MessageFlags.Ephemeral });
+            return interaction.reply({ content: config.messages.noPermission, flags: MessageFlags.Ephemeral });
         }
 
         const logChannel = client.channels.cache.get(config.channels.logs);

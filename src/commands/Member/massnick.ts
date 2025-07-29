@@ -27,7 +27,7 @@ module.exports = {
         }
 
         if (user !== interaction.member && !permission) {
-            return interaction.reply({ content: "You do not have permission to execute this command", flags: MessageFlags.Ephemeral })
+            return interaction.reply({ content: config.messages.noPermission, flags: MessageFlags.Ephemeral })
         }
 
         if (!user.kickable) {

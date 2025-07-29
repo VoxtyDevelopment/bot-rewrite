@@ -32,13 +32,8 @@ module.exports = {
         ),
 
     async execute(interaction, client) {
-        if (interaction.guildId !== config.guilds.mainGuild) {
-            await interaction.reply({
-                content: 'This command is only available in the main guild.',
-                MessageFlags: MessageFlags.Ephemeral
-            });
-            return;
-        }
+    if (interaction.guildId !== config.guilds.mainGuild)
+        return interaction.reply({ content: config.messages.onlymainGuild, flags: MessageFlags.Ephemeral });
 
         await interaction.deferReply({ MessageFlags: MessageFlags.Ephemeral });
 

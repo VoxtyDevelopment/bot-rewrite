@@ -28,9 +28,9 @@ module.exports = {
                 )
                 .setRequired(true)),
     async execute(interaction: ChatInputCommandInteraction, client: Client, con: Connection) {
-        if (interaction.guild?.id !== config.guilds.mainGuild) {
-            return interaction.reply({ content: "This command can only be used in the main guild.", flags: MessageFlags.Ephemeral });
-        }
+        if (interaction.guildId !== config.guilds.mainGuild)
+            return interaction.reply({ content: config.messages.onlymainGuild, flags: MessageFlags.Ephemeral });
+
 
         const newRole = interaction.options.getString('role', true);
         const webId = interaction.options.getString("id", true);
@@ -44,7 +44,7 @@ module.exports = {
         const permission = await hasPermissionLevel(interaction.user.id, 6);
 
         if (!permission) {
-            return interaction.reply({ content: 'You do not have permission to use this command.', flags: MessageFlags.Ephemeral });
+            return interaction.reply({ content: config.messages.noPermission, flags: MessageFlags.Ephemeral });
         }
 
         const log = new EmbedBuilder()

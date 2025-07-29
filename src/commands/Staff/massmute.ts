@@ -22,13 +22,14 @@ module.exports = {
     async execute(interaction, client) {
         await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
-        if (interaction.guildId !== config.guilds.mainGuild)
-            return interaction.editReply({ content: 'This command is only available in the main guild.', flags: MessageFlags.Ephemeral });
+        if (interaction.guildId !== config.guilds.mainGuild) {
+            return interaction.editReply({ content: config.messages.onlymainGuild });
+        }
 
         const permission = await hasPermissionLevel(interaction.user.id, 3);
 
         if (!permission) {
-            return interaction.reply({ content: 'You do not have permission to use this command.', flags: MessageFlags.Ephemeral });
+            return interaction.reply({ content: config.messages.noPermission, flags: MessageFlags.Ephemeral });
         }
 
         const user = interaction.options.getUser('user');
