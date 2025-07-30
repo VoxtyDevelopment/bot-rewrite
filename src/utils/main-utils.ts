@@ -38,7 +38,7 @@ const ts3 = new TeamSpeak({
     nickname: config.ts3.nickname,
 });
 
-// logs to discord reallly should be done in a better way but this is fine for now
+//* logs to discord reallly should be done in a better way but this is fine for now
 /**
  * @param title 
  * @param fields array of fields for the embed 

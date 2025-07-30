@@ -1,6 +1,6 @@
 const config = {
 
-    licensekey: "2b12fa5a-c165-41af-b60c-4849d9a90ddb",
+    licensekey: "mdpqgzv3-uc4vibyo",
 
     features: {
         invision: true,
@@ -131,7 +131,7 @@ const config = {
     },
 
     roles: {
-        leadership: "1373987444944273429",
+        leadership: "1248798406915129354",
         admin: "1248798969258311690",
         ia: "",
         jadmin: "1248799284057342072",

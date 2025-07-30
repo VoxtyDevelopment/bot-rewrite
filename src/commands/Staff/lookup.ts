@@ -14,11 +14,10 @@ module.exports = {
                 .setRequired(true)
         ),
 
-    async execute(interaction) {
+    async execute(interaction, client) {
         if (interaction.guildId !== config.guilds.mainGuild)
             return interaction.reply({ content: config.messages.onlymainGuild, flags: MessageFlags.Ephemeral });
 
-        const invisiondomain = cleanURL(config.invision.domain);
         const permission = await hasPermissionLevel(interaction.user.id, 3);
 
         if (!permission) {
@@ -59,14 +58,26 @@ module.exports = {
 
             try {
                 member = await interaction.guild.members.fetch(discId);
-            } catch (e) {
-            }
+            } catch (e) {}
 
+            const domain = cleanURL(config.invision.domain);
             const webLink = userData.webId
-            ? `[View Profile](${invisiondomain}/profile/${userData.webId}-VOXDEVBOT/)`
-            : 'Not Provided';
+                ? `[WebLink](https://${domain}/profile/${userData.webId}-VOXDEVBOT/)`
+                : 'Not Provided';
 
-
+            let mutualGuilds: string[] = [];
+            if (discId && client && client.guilds) {
+                const guilds = client.guilds.cache;
+                for (const [guildId, guild] of guilds) {
+                    try {
+                        await guild.members.fetch(discId);
+                        mutualGuilds.push(guild.name);
+                    } catch (e) {}
+                }
+            }
+            if (mutualGuilds.length === 0) {
+                mutualGuilds = ['None'];
+            }
 
             const embed = new EmbedBuilder()
                 .setTitle('User Lookup')
@@ -84,6 +95,11 @@ module.exports = {
                             ? `<t:${Math.floor(member.joinedAt.getTime() / 1000)}:F>`
                             : 'Not in Server',
                         inline: true
+                    },
+                    {
+                        name: 'Mutual Servers',
+                        value: mutualGuilds.join('\n'),
+                        inline: false
                     }
                 )
                 .setThumbnail(config.server.logo)

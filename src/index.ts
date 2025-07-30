@@ -187,7 +187,7 @@ const schemaSQL = fs.readFileSync(schemaPath, 'utf8').trim();
 if (schemaSQL) {
     con.query(schemaSQL, (err) => {
         if (err) {
-            console.error("import error wit sql", err);
+            console.error("import error wit sql");
         }
     });
 }

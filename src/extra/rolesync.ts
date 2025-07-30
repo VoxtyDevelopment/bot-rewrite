@@ -100,9 +100,7 @@ async function handleRoleSync(client, oldMember, newMember) {
                     }
                 } catch (error: any) {
                     if (error.code === 10007) {
-                        Logger.warn(`User ${newMember.user.tag} is not in the fan server. Skipping.`);
                     } else {
-                        Logger.error('Error syncing role in fan server:', error);
                     }
                 }
             }
