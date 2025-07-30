@@ -1,7 +1,6 @@
 import { Guild, GuildMember } from 'discord.js';
 import { client } from '../index';
 import config from '../config';
-// ! ill prob utilize this in the future just here for now idc enough to change everything
 // * This Should work for now until i need to update it for some more stuff in the future
 export enum PermissionLevels {
     NOBODY = 0,
