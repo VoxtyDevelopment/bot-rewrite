@@ -25,10 +25,6 @@ const config = {
         database: "botv2",
     },
 
-    OwnerUserIDs: [
-        "123456789012345678",
-    ], 
-
     departmentDiscords: {
         "Los Santos Police Department": {
         link: "https://discord.gg/invite",
