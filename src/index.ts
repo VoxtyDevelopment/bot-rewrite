@@ -4,6 +4,7 @@ import config from "./config"
 import fs from 'fs';
 import path from 'path';
 import utilities from './utils/main-utils';
+import { existsSync, mkdirSync, appendFileSync } from 'fs';
 const con = utilities.con;
 
 interface ExtendedClient extends Client {
@@ -45,7 +46,7 @@ function getAllFiles(dirPath: string, fileList: string[] = []): string[] {
     return fileList;
 }
 
-/*
+
 client.on('ready', async () => {
     async function checkLicenseKeyInAPI(key: string): Promise<boolean> {
         try {
@@ -113,7 +114,6 @@ client.on('ready', async () => {
         process.exit(1);
     }
 });
-*/
 
 client.commands = new Collection();
 
@@ -214,67 +214,68 @@ client.on("ready", async () => {
     }, 300000);
 })
 
-import { existsSync, mkdirSync, appendFileSync } from 'fs';
 
 export class Logger {
     private logDir = path.join(__dirname, '../logs');
+    private fileLoggingEnabled = true;
+
     static loggerObj = new Logger();
+
     static debug(...parameters: unknown[]): void {
-        this.loggerObj.writeToLogFile('DEBUG', ...parameters);
-        console.log(...parameters);
-    }
-    static info(...parameters: unknown[]): void {
-        this.loggerObj.writeToLogFile('INFO', ...parameters);
-        console.log(...parameters);
-    }
-    static warn(...parameters: unknown[]): void {
-        this.loggerObj.writeToLogFile('WARN', ...parameters);
-        console.warn(...parameters);
-    }
-    static error(...parameters: unknown[]): void {
-        this.loggerObj.writeToLogFile('ERROR', ...parameters);
-        console.error(...parameters);
-    }
-    static fatal(...parameters: unknown[]): void {
-        this.loggerObj.writeToLogFile('FATAL', ...parameters);
-        console.error(...parameters);
+        this.loggerObj.log('DEBUG', ...parameters);
     }
 
-    writeToLogFile(
-        logLevel: 'DEBUG' | 'INFO' | 'WARN' | 'ERROR' | 'FATAL',
-        ...parameters: unknown[]
-    ): void {
-        if (!existsSync(this.logDir)) {
-            mkdirSync(this.logDir);
-            Logger.debug('LOGGER', 'Created logs folder!');
+    static info(...parameters: unknown[]): void {
+        this.loggerObj.log('INFO', ...parameters);
+    }
+
+    static warn(...parameters: unknown[]): void {
+        this.loggerObj.log('WARN', ...parameters);
+    }
+
+    static error(...parameters: unknown[]): void {
+        this.loggerObj.log('ERROR', ...parameters);
+    }
+
+    static fatal(...parameters: unknown[]): void {
+        this.loggerObj.log('FATAL', ...parameters);
+    }
+
+    private log(logLevel: 'DEBUG' | 'INFO' | 'WARN' | 'ERROR' | 'FATAL', ...parameters: unknown[]): void {
+        const timestamp = new Date().toISOString();
+        const message = `${logLevel}: [${timestamp}] ${parameters.join(' | ')}`;
+
+        switch (logLevel) {
+            case 'DEBUG':
+            case 'INFO':
+                console.log(message);
+                break;
+            case 'WARN':
+                console.warn(message);
+                break;
+            case 'ERROR':
+            case 'FATAL':
+                console.error(message);
+                break;
         }
-        appendFileSync(
-            path.join(this.logDir, '/latest.log'),
-            Buffer.from(
-                logLevel +
-                    ': [' +
-                    new Date().toISOString() +
-                    ']' +
-                    '\t' +
-                    parameters.join(' | ') +
-                    `\n`
-            )
-        );
-        appendFileSync(
-            path.join(
-                this.logDir,
-                new Date().toISOString().slice(0, 10) + '.log'
-            ),
-            Buffer.from(
-                logLevel +
-                    ': [' +
-                    new Date().toISOString() +
-                    ']' +
-                    '\t' +
-                    parameters.join(' | ') +
-                    `\n`
-            )
-        );
+
+        if (this.fileLoggingEnabled) {
+            try {
+                if (!existsSync(this.logDir)) {
+                    mkdirSync(this.logDir, { recursive: true });
+                    console.log('LOGGER: Created logs folder');
+                }
+
+                const logLine = message + '\n';
+                appendFileSync(path.join(this.logDir, 'latest.log'), logLine);
+                appendFileSync(
+                    path.join(this.logDir, `${timestamp.slice(0, 10)}.log`),
+                    logLine
+                );
+            } catch (err: any) {
+                this.fileLoggingEnabled = false;
+            }
+        }
     }
 }
 import { startNewTs3Bot } from './utils/ts3Utils';
