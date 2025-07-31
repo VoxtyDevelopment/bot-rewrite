@@ -1,6 +1,6 @@
 const config = {
 
-    licensekey: "mdpqgzv3-uc4vibyo",
+    licensekey: "2b12fa5a-c165-41af-b60c-4849d9a90ddb",
 
     features: {
         invision: true,
@@ -19,9 +19,9 @@ const config = {
     },
  
     mysql: {
-        host: "localhost",
-        user: "root",
-        password: "",
+        host: "sql.voxdev.online",
+        user: "vox",
+        password: "CYbnwUw3",
         database: "botv2",
     },
 
@@ -195,6 +195,38 @@ const config = {
         logs: "1252677650456248473",
         leaveLogs: "1252677650456248473"
     },
+
+    // This is important to where you don't fuck it up, keep one guild ID for your guild when you want to add more roles for probationary+ etc make a new line by copying 
+
+    /*
+        {
+            discordRoleId: 'guildId',
+            ts3roleId: "roleId"
+        },
+    */
+
+    departmentRoles: {
+    '1258513061556523080': [ // Guild ID
+        {
+            discordRoleId: '1258513061770297464',
+            ts3roleId: "1066"
+        },
+        {
+            discordRoleId: '223456789012345678',
+            ts3roleId: "102"
+        }
+    ],
+    '222222222222222222': [ // Guild ID
+        {
+            discordRoleId: '323456789012345678',
+            ts3roleId: "103"
+        },
+        {
+            discordRoleId: '423456789012345678',
+            ts3roleId: "104"
+        }
+    ]
+  }
 }
 
 export default config;

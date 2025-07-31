@@ -281,4 +281,60 @@ async function handleRoleSync(client, oldMember, newMember) {
             }
         }
     }
+    if (config.features.teamspeak) {
+        for (const guildId in config.departmentRoles) {
+            const roles = config.departmentRoles[guildId];
+            for (const role of roles) {
+                if (role.ts3roleId && !oldMember.roles.cache.has(role.discordRoleId) && newMember.roles.cache.has(role.discordRoleId) ) {
+                    try {
+                        con.query('SELECT * FROM users WHERE discId = ?', [newMember.user.id], async (err, rows) => {
+                            if (err || !rows[0]) return;
+                            const usercache = rows[0];
+                            const teamspeakRole = role.ts3roleId;
+                            if (teamspeakRole) {
+                                const tsclient = await ts3.getClientByUid(usercache.ts3);
+                                if (tsclient) {
+                                    await tsclient.addGroups(teamspeakRole);
+                                } else {
+                                    const response = await ts3.execute('clientgetdbidfromuid', { cluid: usercache.ts3 }) as any;
+                                    if (!response || !response[0] || !response[0].cldbid) {
+                                        Logger.warn(`No cldbid found for UID: ${usercache.ts3}`);
+                                        return;
+                                    }
+                                    const cldbid = response[0].cldbid;
+                                    await ts3.clientAddServerGroup(cldbid, teamspeakRole);
+                                }
+                            } else {
+                                Logger.warn('Teamspeak role not found');
+                            }
+                        });
+                    } catch (error) {
+                        Logger.error('Error syncing teamspeak roles', error);
+                    }
+                }
+                if (role.ts3roleId && oldMember.roles.cache.has(role.discordRoleId) && !newMember.roles.cache.has(role.discordRoleId)) {
+                    try {
+                        con.query('SELECT * FROM users WHERE discId = ?', [newMember.user.id], async (err, rows) => {
+                            if (err || !rows[0]) return;
+                            const usercache = rows[0];
+                            const teamspeakRole = role.ts3roleId;
+                            if (teamspeakRole) {
+                                const response = await ts3.execute('clientgetdbidfromuid', { cluid: usercache.ts3 }) as any;
+                                if (!response || !response[0] || !response[0].cldbid) {
+                                    Logger.warn(`No cldbid found for UID: ${usercache.ts3}`);
+                                    return;
+                                }
+                                const cldbid = response[0].cldbid;
+                                await ts3.serverGroupDelClient(cldbid, teamspeakRole);
+                            } else {
+                                Logger.warn('Teamspeak role not found');
+                            }
+                        });
+                    } catch (error) {
+                        Logger.error('Error removing users server group from teamspeak', error);
+                    }
+                }
+            }
+        }
+    }
 }
