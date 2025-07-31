@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, EmbedBuilder, Colors, ColorResolvable, TextChannel, GuildMember, MessageFlags } from 'discord.js';
 import config from '../../config';
 import utilities from '../../utils/main-utils';
-import { changeWebsiteRole, banWebsiteUser, removeUserFromDb } from '../../utils/main-utils';
+import { changeWebsiteRole, banWebsiteUser, removeUserFromDb, addToBanDb } from '../../utils/main-utils';
 const con = utilities.con;
 const ts3 = utilities.ts3;
 import { resetUser } from '../../utils/ts3Utils';
@@ -142,8 +142,9 @@ module.exports = {
                     ts3.quit;
                 }
 
+                await addToBanDb(userId, usercache.steamHex, `Resignation (${resignationType})`);
                 await removeUserFromDb(user.id);
-                
+
                 return interaction.followUp({
                     content: `User <@${userId}> has resigned from all ${config.server.name} assets for ${days} day(s) as a ${resignationType} resignation.`,
                     MessageFlags: MessageFlags.Ephemeral

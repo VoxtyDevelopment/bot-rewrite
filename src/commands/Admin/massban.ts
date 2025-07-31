@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, EmbedBuilder, Embed, Colors, ColorResolvable, MessageFlags, TextChannel } from 'discord.js';
 import config from '../../config';
 import utilities from '../../utils/main-utils';
-import { changeWebsiteRole, banWebsiteUser, removeUserFromDb } from '../../utils/main-utils';
+import { changeWebsiteRole, banWebsiteUser, removeUserFromDb, addToBanDb } from '../../utils/main-utils';
 const con = utilities.con;
 const ts3 = utilities.ts3;
 import { resetUser } from '../../utils/ts3Utils'
@@ -85,7 +85,7 @@ module.exports = {
 
                 const usercache = rows [0];
 
-                con.query('INSERT INTO bans (discId, steamHex, reason', [userId, usercache.steamHex, reason]);
+                await addToBanDb(userId, usercache.steamHex, reason);
 
                 try {
                     if (usercache.webId) {

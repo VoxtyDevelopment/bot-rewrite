@@ -2,7 +2,7 @@ import config from '../config';
 import utilites from "../utils/main-utils";
 const ts3 = utilites.ts3;
 const con = utilites.con;
-import { changeWebsiteRole, banWebsiteUser, removeUserFromDb } from "../utils/main-utils";
+import { changeWebsiteRole, banWebsiteUser, removeUserFromDb, addToBanDb } from "../utils/main-utils";
 import { resetUser } from '../utils/ts3Utils';
 
 const recentlyBannedOrKicked = new Set();
@@ -105,6 +105,7 @@ module.exports = {
                         }
                     });
 
+                    await addToBanDb(userId, usercache.steamHex, "Improper Resignation");
                     await removeUserFromDb(userId);
 
                 } catch (error) {

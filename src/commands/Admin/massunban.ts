@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, EmbedBuilder, ColorResolvable, MessageFlags } from "discord.js";
-import { unbanWebsiteUser } from "../../utils/main-utils";
+import { unbanWebsiteUser, unbanFromDb } from "../../utils/main-utils";
 import config from "../../config";
 import utilites from "../../utils/main-utils";
 const con = utilites.con;
@@ -45,9 +45,11 @@ module.exports = {
             }
         }
 
+        await unbanFromDb(user.id);
+
         con.query('SELECT * FROM users WHERE discId = ?', [user.id], async (err, rows) => {
-            if (err) return console.log('There was an error fetching the users information from the database, user has still been banned from discords.');
-            if (!rows[0]) return console.log('There was an error fetching the users information from the database, user has still been banned from discords.');
+            if (err) return console.log('There was an error fetching the users information from the database, user has still been unbanned from discords.');
+            if (!rows[0]) return console.log('There was an error fetching the users information from the database, user has still been unbanned from discords.');
 
             const usercache = rows [0];
             try {
