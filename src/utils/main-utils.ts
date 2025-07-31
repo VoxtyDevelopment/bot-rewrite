@@ -97,6 +97,14 @@ export async function unbanWebsiteUser(webid: string) {
         });
 }
 
+export async function removeUserFromDb(userId: string) {
+    con.query('DELETE FROM users WHERE discId = ?', [userId], (err) => {
+        if (err) {
+            console.error('Error deleting user from database:', err);
+        }
+    });
+}
+
 export function cleanURL(input: string) {
     let result = input;
 

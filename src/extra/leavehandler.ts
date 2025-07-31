@@ -2,7 +2,7 @@ import config from '../config';
 import utilites from "../utils/main-utils";
 const ts3 = utilites.ts3;
 const con = utilites.con;
-import { changeWebsiteRole, banWebsiteUser } from "../utils/main-utils";
+import { changeWebsiteRole, banWebsiteUser, removeUserFromDb } from "../utils/main-utils";
 import { resetUser } from '../utils/ts3Utils';
 
 const recentlyBannedOrKicked = new Set();
@@ -105,11 +105,7 @@ module.exports = {
                         }
                     });
 
-                    con.query('DELETE FROM users WHERE discId = ?', [userId], (err) => {
-                        if (err) {
-                            console.error('Error deleting user from database:', err);
-                        }
-                    });
+                    await removeUserFromDb(userId);
 
                 } catch (error) {
                     console.error("There was an error executing this command", error);

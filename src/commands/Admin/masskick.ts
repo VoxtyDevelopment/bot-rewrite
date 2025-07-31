@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, EmbedBuilder, MessageFlags, ColorResolvable } from 'discord.js';
 import config from '../../config';
 import utilities from '../../utils/main-utils';
-import { changeWebsiteRole } from '../../utils/main-utils';
+import { changeWebsiteRole, removeUserFromDb } from '../../utils/main-utils';
 const con = utilities.con;
 const ts3 = utilities.ts3;
 import { resetUser } from '../../utils/ts3Utils';
@@ -80,10 +80,10 @@ module.exports = {
         });
 
         con.query('SELECT * FROM users WHERE discId = ?', [userId], async (err, rows) => {
-                if (err) return console.log('There was an error fetching the users information from the database, user has still been kicked from discords.');
-                if (!rows[0]) return console.log('There was an error fetching the users information from the database, user has still been kicked from discords.');
+            if (err) return console.log('There was an error fetching the users information from the database, user has still been kicked from discords.');
+            if (!rows[0]) return console.log('There was an error fetching the users information from the database, user has still been kicked from discords.');
 
-                const usercache = rows [0];
+            const usercache = rows [0];
                 try {
                     if (usercache.webId) {
                         try {
@@ -100,10 +100,12 @@ module.exports = {
                         console.error(`Failed to ban user on teamspeak (UID: ${usercache.ts3}):`, error.message);
                     }
                 } catch (err) {
-                    console.error(err);
-                    return interaction.reply({ content: 'There was an issue reseting this members website or teamspeak roles, they have still been kicked from all discords', flags: MessageFlags.Ephemeral });
-                }
-            });
+                console.error(err);
+                return interaction.reply({ content: 'There was an issue reseting this members website or teamspeak roles, they have still been kicked from all discords', flags: MessageFlags.Ephemeral });
+            }
+
+            await removeUserFromDb(userId);
+        });
 
         await interaction.reply({ content: `User <@${userId}> has been mass-kicked from all ${config.server.name} assets.` });
     }

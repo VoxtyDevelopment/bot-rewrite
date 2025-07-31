@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, EmbedBuilder, Embed, Colors, ColorResolvable, MessageFlags, TextChannel } from 'discord.js';
 import config from '../../config';
 import utilities from '../../utils/main-utils';
-import { changeWebsiteRole, banWebsiteUser } from '../../utils/main-utils';
+import { changeWebsiteRole, banWebsiteUser, removeUserFromDb } from '../../utils/main-utils';
 const con = utilities.con;
 const ts3 = utilities.ts3;
 import { resetUser } from '../../utils/ts3Utils'
@@ -115,6 +115,8 @@ module.exports = {
                     console.error(err);
                     return interaction.reply({ content: 'There was an error banning this user from the website or teamspeak, they have been banned from all discords.', flags: MessageFlags.Ephemeral });
                 }
+
+                await removeUserFromDb(userId);
             });
             
             await interaction.reply({ content: `User <@${userId}> has been massbanned from all ${config.server.name} assets.` });
