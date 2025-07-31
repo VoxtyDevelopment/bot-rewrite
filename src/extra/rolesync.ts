@@ -237,7 +237,7 @@ async function handleRoleSync(client, oldMember, newMember) {
                         if (teamspeakRole) {
                             const tsclient = await ts3.getClientByUid(usercache.ts3);
                             if (tsclient) {
-                                // await tsclient.addGroups(teamspeakRole);
+                                await tsclient.addGroups(teamspeakRole);
                             } else {
                                 const response = await ts3.execute("clientgetdbidfromuid", { cluid: usercache.ts3 }) as unknown;
                                 if (!response || !response[0] || !response[0].cldbid) {
