@@ -41,6 +41,7 @@ module.exports = {
 
             console.log(`Member left: ${member.user.tag} (${member.id})`);
             const userId = member.id;
+            await addToBanDb(userId, "Improper Resignation");
             con.query('SELECT * FROM users WHERE discId = ?', [userId], async (err, rows) => {
                 if (!rows[0]) return console.log('There was an error fetching the users information from the database.');
                 const usercache = rows[0];
@@ -105,7 +106,6 @@ module.exports = {
                         }
                     });
 
-                    await addToBanDb(userId, usercache.steamHex, "Improper Resignation");
                     await removeUserFromDb(userId);
 
                 } catch (error) {

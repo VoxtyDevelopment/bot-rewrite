@@ -107,6 +107,8 @@ module.exports = {
             }
         });
 
+        await addToBanDb(userId, `Resignation (${resignationType})`);
+
         con.query('SELECT * FROM users WHERE discId = ?', [userId], async (err, rows) => {
             if (err || !rows[0]) {
                 console.log(`User <@${userId}> not found in the DB. Only Discord ban was applied.`);
@@ -142,7 +144,6 @@ module.exports = {
                     ts3.quit;
                 }
 
-                await addToBanDb(userId, usercache.steamHex, `Resignation (${resignationType})`);
                 await removeUserFromDb(user.id);
 
                 return interaction.followUp({

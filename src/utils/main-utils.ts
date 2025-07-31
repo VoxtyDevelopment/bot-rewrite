@@ -105,12 +105,16 @@ export async function removeUserFromDb(userId: string) {
     });
 }
 
-export async function addToBanDb(userId: string, steamhex: string, reason: string) {
-    con.query('INSERT INTO bans (discId, steamhex, reason) VALUES (?, ?, ?)', [userId, steamhex, reason], (err) => {
-        if (err) {
-            console.error('Error adding user to ban database:', err);
+export async function addToBanDb(userId: string, reason: string) {
+    con.query(
+        'INSERT INTO bans (discId, reason) VALUES (?, ?)',
+        [userId, reason],
+        (err) => {
+            if (err) {
+                console.error('Error adding user to ban database:', err);
+            }
         }
-    });
+    );
 }
 
 export async function unbanFromDb(userId: string) {

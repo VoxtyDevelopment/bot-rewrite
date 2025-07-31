@@ -79,14 +79,13 @@ module.exports = {
                 }
             });
 
+            await addToBanDb(userId, reason);
+
             con.query('SELECT * FROM users WHERE discId = ?', [userId], async (err, rows) => {
                 if (err) return console.log('There was an error fetching the users information from the database, user has still been banned from discords.');
                 if (!rows[0]) return console.log('There was an error fetching the users information from the database, user has still been banned from discords.');
 
                 const usercache = rows [0];
-
-                await addToBanDb(userId, usercache.steamHex, reason);
-
                 try {
                     if (usercache.webId) {
                         try {
