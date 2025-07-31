@@ -206,27 +206,33 @@ const config = {
     */
 
     departmentRoles: {
-    '1258513061556523080': [ // Guild ID
-        {
+      '1258513061556523080': { // Guild ID
+        departmentRoleId: "1138", // Department Role ID for TeamSpeak
+        roles: [
+          {
             discordRoleId: '1258513061770297464',
             ts3roleId: "1066"
-        },
-        {
+          },
+          {
             discordRoleId: '223456789012345678',
             ts3roleId: "102"
-        }
-    ],
-    '222222222222222222': [ // Guild ID
-        {
+          }
+        ]
+      },
+      '222222222222222222': { // Guild ID
+        departmentRoleId: "6001", // Department Role ID for TeamSpeak
+        roles: [
+          {
             discordRoleId: '323456789012345678',
             ts3roleId: "103"
-        },
-        {
+          },
+          {
             discordRoleId: '423456789012345678',
             ts3roleId: "104"
-        }
-    ]
-  }
+          }
+        ]
+      }
+    }
 }
 
 export default config;
