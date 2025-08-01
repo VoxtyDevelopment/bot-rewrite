@@ -6,3 +6,4 @@ coverage
 *.log
 logs
 bot-obfuscated
+bot-obfuscated.zip
