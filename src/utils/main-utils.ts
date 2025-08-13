@@ -106,16 +106,26 @@ export async function removeUserFromDb(userId: string) {
 }
 
 export async function addToBanDb(userId: string, reason: string) {
-    con.query(
-        'INSERT INTO bans (discId, reason) VALUES (?, ?)',
-        [userId, reason],
-        (err) => {
-            if (err) {
-                console.error('Error adding user to ban database:', err);
-            }
+    try {
+        const [rows] = await con.promise().query(
+            'SELECT 1 FROM bans WHERE discId = ? LIMIT 1',
+            [userId]
+        );
+
+        if ((rows as any[]).length > 0) {
+            return;
         }
-    );
+
+        await con.promise().query(
+            'INSERT INTO bans (discId, reason) VALUES (?, ?)',
+            [userId, reason]
+        );
+
+    } catch (err) {
+        console.error('Error adding user to ban database:', err);
+    }
 }
+
 
 export async function unbanFromDb(userId: string) {
     con.query('DELETE FROM bans WHERE discId = ?', [userId], (err) => {
