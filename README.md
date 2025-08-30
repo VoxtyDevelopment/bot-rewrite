@@ -67,6 +67,10 @@ The bot includes a variety of commands for server management. Below is a list of
   
 *As well as many extra integrations outside of the commands.*
 
+### Optional FiveM Resources
+- [Sync bans from the external security bot](https://github.com/VoxtyDevelopment/fivem-bans)
+- [Sync AOP from the external security bot & teamspeak](https://github.com/VoxtyDevelopment/aop)
+
 ## Developers
 
 - [@voxty](https://github.com/voxty)
