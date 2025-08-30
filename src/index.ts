@@ -46,7 +46,7 @@ function getAllFiles(dirPath: string, fileList: string[] = []): string[] {
     return fileList;
 }
 
-
+/*
 client.on('ready', async () => {
     async function checkLicenseKeyInAPI(key: string): Promise<boolean> {
         try {
@@ -114,6 +114,7 @@ client.on('ready', async () => {
         process.exit(1);
     }
 });
+*/
 
 client.commands = new Collection();
 

@@ -1,6 +1,6 @@
 const config = {
 
-    licensekey: "2b12fa5a-c165-41af-b60c-4849d9a90ddb",
+    licensekey: "",
 
     features: {
         invision: true,
@@ -8,21 +8,21 @@ const config = {
     },
 
     bot: {
-        token: "MTI0NzQ2ODQwMzQwOTgxMzYyNQ.GbbfTy.s2200PvHgGSfQ5bQGXOmllsZ8yg0etqaSGPzqQ",
-        clientId: "1247468403409813625",
+        token: "",
+        clientId: "",
 
         settings: {
-            status: "Watching the sunrise on the eastcoast",
+            status: "",
             embedcolor: "#1ABC9C",
             embedfooter: "iloveyou",
         },
     },
  
     mysql: {
-        host: "sql.voxdev.online",
-        user: "vox",
-        password: "CYbnwUw3",
-        database: "botv2",
+        host: "",
+        user: "",
+        password: "",
+        database: "",
     },
 
     departmentDiscords: {
@@ -46,53 +46,53 @@ const config = {
 
 
     invision: {
-        api: "dba33bf8371595924d078ea0f420fe2c",
-        domain: "slrp.epizy.com",
-        recruit: "1",
-        member: "12",
-        sit: "1",
-        staff: "1",
-        sstaff: "1",
-        jadmin: "1",
-        admin: "1",
-        dev: "1",
-        media: "1",
-        rnt: "1",
+        api: "",
+        domain: "",
+        recruit: "",
+        member: "",
+        sit: "",
+        staff: "",
+        sstaff: "",
+        jadmin: "",
+        admin: "",
+        dev: "",
+        media: "",
+        rnt: "",
         retired: "",
         applicant: "",
     },
 
     logifValid: true,
     logIps: false, // if you want to log the IPs for people if they pass the VPN check, set this to true otherwise it won't log.
-    vpnApiKey: 'MjgzMTQ6ajM5UTFiQXBybEU3QVJJUkZ3aWZBSU9DM0VGNDliNDA=', // uhh if you want to use the iphub api for checking if a user is using a vpn or not you can get your api key here: https://iphub.info/register // free key is 1000 requests per day
+    vpnApiKey: '', // uhh if you want to use the iphub api for checking if a user is using a vpn or not you can get your api key here: https://iphub.info/register // free key is 1000 requests per day
 
     ts3: {
         host: "localhost",
         queryport: 10011,
         serverport: 9987,
         username: "serveradmin",
-        password: "Von5FJMi",
+        password: "",
         nickname: "Vox Development",
 
         groupIDs: {
-            VPNBYPASS: 638,
-            DND: 330,
-            QUEUEBYPASS: 636,
-            COOKIE: 439,
-            SEESTAFF: 239,
-            SEEADMIN: 287,
-            SEEHA: 240,
-            SEEIA: 238,
-            MEMBER: "680",
-            RSTAFF: 438,
-            RADMIN: 148,
-            SIT: "19",
-            STAFF: "18",
-            SRSTAFF: "17",
-            JRADMIN: "16",
-            ADMIN: "15",
-            SRADMIN: 152,
-            HEADADMIN: 153,
+            VPNBYPASS: 1,
+            DND: 1,
+            QUEUEBYPASS: 1,
+            COOKIE: 1,
+            SEESTAFF: 1,
+            SEEADMIN: 1,
+            SEEHA: 1,
+            SEEIA: 1,
+            MEMBER: "1",
+            RSTAFF: 1,
+            RADMIN: 1,
+            SIT: "1",
+            STAFF: "1",
+            SRSTAFF: "1",
+            JRADMIN: "1",
+            ADMIN: "1",
+            SRADMIN: 1,
+            HEADADMIN: 1,
         },
         whitelistedChannelIds: [2, 1, 41, 43, 46, 48],
         whitelistedWaitingRoomIds: [285, 286, 2, 44, 47, 49],
@@ -131,31 +131,31 @@ const config = {
     },
 
     roles: {
-        leadership: "1248798406915129354",
-        admin: "1248798969258311690",
+        leadership: "",
+        admin: "",
         ia: "",
-        jadmin: "1248799284057342072",
-        sstaff: "1248799433911697529",
-        staff: "1248799574978461767",
-        sit: "1248799617345388564",
-        member: "1248799659741151272",
-        verification: "1253777549172146217",
-        whitelist: "1249128354200686604",
+        jadmin: "",
+        sstaff: "",
+        staff: "",
+        sit: "",
+        member: "",
+        verification: "",
+        whitelist: "",
 
         fan: {
-            admin: "1258513061829152851",
-            jadmin: "1258513061829152850",
-            sstaff: "1258513061829152849",
-            staff: "1258513061799526509",
-            sit: "1258513061799526508",
-            member: "1258513061799526507"
+            admin: "",
+            jadmin: "",
+            sstaff: "",
+            staff: "",
+            sit: "",
+            member: ""
         },
 
 
         dept: {
             lspd: "",
             bcso: "",
-            sasp: "1248799944396111874",
+            sasp: "",
             safr: "",
             civ: "",
             comms: "",
@@ -165,18 +165,18 @@ const config = {
         },
         
         staffguild: {
-            admin: "1362334768297021562",
-            jadmin: "1362334776245358664",
-            sstaff: "1362334787221590108",
-            staff: "1362334792435372203",
-            sit: "1362334796990124124"
+            admin: "",
+            jadmin: "",
+            sstaff: "",
+            staff: "",
+            sit: ""
         }
     },
 
     guilds: {
-        mainGuild: "1248798386552045628",
+        mainGuild: "",
         devGuild: "",
-        fanGuild: "1258513061556523080",
+        fanGuild: "",
         staffGuild: "",
     },
 
@@ -187,13 +187,12 @@ const config = {
     },
 
     mute: {
-        catagory: "1347954357852962907",
-        role: "Coventry"
+        role: ""
     },
 
     channels: {
-        logs: "1252677650456248473",
-        leaveLogs: "1252677650456248473"
+        logs: "",
+        leaveLogs: ""
     },
 
     // This is important to where you don't fuck it up, keep one guild ID for your guild when you want to add more roles for probationary+ etc make a new line by copying 
@@ -206,29 +205,29 @@ const config = {
     */
 
     departmentRoles: {
-      '1258513061556523080': { // Guild ID
-        departmentRoleId: "1138", // Department Role ID for TeamSpeak
+      '': { // Guild ID
+        departmentRoleId: "", // Department Role ID for TeamSpeak
         roles: [
           {
-            discordRoleId: '1258513061770297464',
-            ts3roleId: "1066"
+            discordRoleId: '',
+            ts3roleId: ""
           },
           {
-            discordRoleId: '223456789012345678',
-            ts3roleId: "102"
+            discordRoleId: '',
+            ts3roleId: ""
           }
         ]
       },
-      '222222222222222222': { // Guild ID
-        departmentRoleId: "6001", // Department Role ID for TeamSpeak
+      '': { // Guild ID
+        departmentRoleId: "", // Department Role ID for TeamSpeak
         roles: [
           {
-            discordRoleId: '323456789012345678',
-            ts3roleId: "103"
+            discordRoleId: '',
+            ts3roleId: ""
           },
           {
-            discordRoleId: '423456789012345678',
-            ts3roleId: "104"
+            discordRoleId: '',
+            ts3roleId: ""
           }
         ]
       }
