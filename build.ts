@@ -43,7 +43,7 @@ if (fs.existsSync(CONFIG_JS_SOURCE)) {
     console.log('Copying config.js...');
     fs.copySync(CONFIG_JS_SOURCE, path.join(OUTPUT_DIR, 'config.js'));
 } else {
-    console.warn('⚠️ config.js not found in dist/. Skipping copy.');
+    console.warn('config.js not found in dist/. Skipping copy.');
 }
 
 console.log('Build complete.');

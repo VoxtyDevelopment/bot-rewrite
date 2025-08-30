@@ -2,6 +2,8 @@
 
 A rewritten bot by Vox Development, built with TypeScript. This project is designed to be a rewrite of our last external security bot written in Javascript.
 
+You're more than welcome to fork and contribute to this code, put please don't claim it as your own or resell it.
+
 ## Setup Instructions
 
 1. Clone or Download the repository:
@@ -20,11 +22,11 @@ A rewritten bot by Vox Development, built with TypeScript. This project is desig
      - **Other Settings:** Change all of the Other required settings.
    - Save the file after making changes.
 
-4. Build the project to JavaScript:
+4. Build and run the project in javascript:
    ```
-   npm run build
+   npm run prod
    ```
-   This will compile the TypeScript code into JavaScript in the `dist` folder.
+   This will install all the required node modules then compile the TypeScript code into JavaScript in the `dist` folder, finally running the compiled javascript.
 
 5. Run in development mode (TypeScript):
    ```
@@ -32,15 +34,14 @@ A rewritten bot by Vox Development, built with TypeScript. This project is desig
    ```
    This will start the bot using TypeScript with live reloading.
 
-6. If built in Javascript, run the compiled JavaScript:
+6. Obfuscate the bot
    ```
-   node dist/index.js
+   npm run obfuscate
    ```
+   This starts an automated code obfuscation process.
 
 ### Commands
 The bot includes a variety of commands for server management. Below is a list of included commands:
-
-- **Moderation:**
   - `clear` - Purges messages in a channel.
   - `massban` - Bans user from all guilds.
   - `masskick` - Kicks user from all guilds.
@@ -49,8 +50,6 @@ The bot includes a variety of commands for server management. Below is a list of
   - `massunban` - Unbans user from all guilds.
   - `seeia` - Mutes a users in all guilds.
   - `resign` - Handle resignations.
-    
-- **Utility:**
   - `invite` - Generates a temp invites.
   - `lookup` - Lookup a user in the DB.
   - `serverstatus` - Check server status.
@@ -60,6 +59,13 @@ The bot includes a variety of commands for server management. Below is a list of
   - `massnick` - Changes nickname in all guilds.
   - `tspass` - Creates a Temporary TSPass.
   - `update-user` - Updates a user in the Database.
+  - `webrole`- Updates a user on the Invison Community Forums.
+  - `guildmanager` - Fallback to leave unnecessary discords the bot is in.
+  - `aop` - See the current AOP of the server.
+  - `ddiscord` - See the department discords.
+  - `setaop` - Sets the aop of a selected server
+  
+*As well as many extra integrations outside of the commands.*
 
 ## Developers
 
