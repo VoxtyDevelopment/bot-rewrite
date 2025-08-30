@@ -2,7 +2,7 @@
 
 A rewritten bot by Vox Development, built with TypeScript. This project is designed to be a rewrite of our last external security bot written in Javascript.
 
-You're more than welcome to fork and contribute to this code, put please don't claim it as your own or resell it.
+You're more than welcome to fork and contribute to this code, put please don't resell it.
 
 ## Setup Instructions
 
