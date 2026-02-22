@@ -1,0 +1,62 @@
+name: build and release
+
+on:
+  push:
+    branches:
+      - development
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: repo checkout
+        uses: actions/checkout@v4
+
+      - name: node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: version from package.json
+        id: get_version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: install deps
+        run: npm ci
+
+      - name: config rename
+        run: |
+          if [ -f config.example.ts ]; then
+            mv config.example.ts config.ts
+          fi
+
+      - name: compile tsc
+        run: npx tsc
+
+      - name: copy required files into dist
+        run: |
+          cp -r sql dist/
+          cp package.json dist/
+          cp package-lock.json dist/
+
+      - name: rename dist to bot-rewrite
+        run: mv dist bot-rewrite
+
+      - name: zip bot-rewrite folder
+        run: zip -r bot-rewrite.zip bot-rewrite
+
+      - name: release time
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.get_version.outputs.version }}
+          name: v${{ steps.get_version.outputs.version }}
+          body_path: README.md
+          files: bot-rewrite.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

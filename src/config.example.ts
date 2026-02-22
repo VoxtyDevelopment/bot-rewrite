@@ -184,6 +184,7 @@ const config = {
 
   mute: {
     role: "",
+    catagory: "",
   },
 
   channels: {
