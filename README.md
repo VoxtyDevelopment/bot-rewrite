@@ -16,11 +16,11 @@ You're more than welcome to fork and contribute to this code, put please don't r
    npm install
    ```
 3. Configure the environment:
-   - Open `src/config.ts` and set up the required configuration options:
+   - Open `src/config.example.ts` and set up the required configuration options:
      - **Discord Bot Token:** Add your bot token to connect to Discord.
      - **Database Configuration:** Set up MySQL credentials (host, user, password, database).
      - **Other Settings:** Change all of the Other required settings.
-   - Save the file after making changes.
+   - Save the file and rename it to `config.ts` after making changes.
 
 4. Build and run the project in javascript:
    ```
@@ -76,4 +76,4 @@ The bot includes a variety of commands for server management. Below is a list of
 - [@voxty](https://github.com/voxty)
 - [@ebt-mhm](https://github.com/ebt-mhm)
 
---- 
+---

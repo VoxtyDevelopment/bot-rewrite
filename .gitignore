@@ -7,3 +7,4 @@ coverage
 logs
 bot-obfuscated
 bot-obfuscated.zip
+/src/config.ts
