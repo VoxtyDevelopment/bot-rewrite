@@ -32,8 +32,8 @@ jobs:
 
       - name: config rename
         run: |
-          if [ -f config.example.ts ]; then
-            mv config.example.ts config.ts
+          if [ -f src/config.example.ts ]; then
+            mv src/config.example.ts src/config.ts
           fi
 
       - name: compile tsc
