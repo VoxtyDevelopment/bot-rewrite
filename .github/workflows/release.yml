@@ -3,7 +3,7 @@ name: build and release
 on:
   push:
     branches:
-      - development
+      - main
 
 permissions:
   contents: write
@@ -41,7 +41,7 @@ jobs:
 
       - name: copy required files into dist
         run: |
-          cp -r sql dist/
+          cp -r src/sql dist/
           cp package.json dist/
           cp package-lock.json dist/
 
